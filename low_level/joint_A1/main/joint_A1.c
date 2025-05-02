@@ -2,139 +2,153 @@
 #include "driver/uart.h"
 #include <driver/gpio.h>
 #include <freertos/FreeRTOS.h>
-#include <freertos/idf_additions.h>
+#include <freertos/task.h>
 #include <string.h>
 #include <esp_log.h>
 
-#define BUILT_IN_LED 2
-#define TXD2 17
-#define RXD2 16
-#define TXD0 1
-#define RXD0 3
-#define RTC 12
+#define TAG "Joint_A1"
 
-#define PULSE 13
-#define SIGN 14
-#define SON 27
-#define PULSE_PER_DEGREE  700
-#define MAX_freq 8
+// GPIO Definitions
+#define BUILT_IN_LED 2
+#define UART_TXD_PIN 17
+#define UART_RXD_PIN 16
+#define MOTOR_PULSE_PIN 13
+#define MOTOR_DIRECTION_PIN 14
+#define MOTOR_ENABLE_PIN 27
+#define RTC_PIN 12
+
+// Motor Constants
+#define PULSES_PER_DEGREE 700
+#define MIN_HALF_PERIOD_US 8  // Maximum speed corresponds to shortest half-period
+#define MAX_QUEUE_SIZE 100
+#define MOTOR_ADDRESS 1
+
+// UART Configuration
+#define UART_PORT UART_NUM_1
+#define UART_BUFFER_SIZE 1024 * 2
+#define UART_QUEUE_SIZE 50
 
 typedef struct {
-    float target_degree;    // Target position
-    bool direction;         // Direction of rotation
-    uint8_t torque_limit;       // Torque limit (if applicable)
-    uint8_t frequancy;          // target frequancy
+    float target_angle_deg;
+    bool direction_cw;
+    uint8_t torque_limit;
+    uint8_t half_period_us;
 } motor_params_t;
 
-static const char* TAG = "Joint_A1";
+static QueueHandle_t uart_event_queue;
+static QueueHandle_t motor_params_queue = NULL;
 
-QueueHandle_t uart_event_queue;
-QueueHandle_t motor_params_queue = NULL;
-
-
-uint8_t rx_buffer[5];
-int pulses = 0;
-int counter = 0;
-float deg = 0;
-
+// Global state variables
+static int movement_count = 0;
+static float current_angle_deg = 0.00f;
 
 void uart_init(void);
 void gpio_init(void);
-void RS485_Send(uart_port_t uart_port,uint8_t* buf,uint16_t size);
 
-
+// Task handling incoming UART data
 void receive_event_task(void *pvParameter)
 {
-
     uart_event_t event;
-    gpio_set_level(RTC,0);
-    while (1)
-    {
-        
-        if (xQueueReceive(uart_event_queue, (void*)&event,50) == pdTRUE)
-        {
-            switch (event.type)
-            {
-                
-                case UART_DATA:
-                    memset(rx_buffer,0,sizeof(rx_buffer));
-                    int len = uart_read_bytes(UART_NUM_1, rx_buffer, event.size, 100);
-                    if(len > 0 && rx_buffer[0] == 1)
-                    {
-                        motor_params_t param = {0};
-                        
-                        param.target_degree = ((rx_buffer[1] << 8) + rx_buffer[2]) / 100.0;
-                        param.direction = rx_buffer[3]&1;
-                        param.frequancy = rx_buffer[4];
-                        param.torque_limit = 255;
+    uint8_t rx_buffer[5];
+    gpio_set_level(RTC_PIN, 0);
+    
+    while (true) {
+        if (xQueueReceive(uart_event_queue, &event, pdMS_TO_TICKS(50)) == pdTRUE) {
+            switch (event.type) {
+                case UART_DATA: {
+                    int len = uart_read_bytes(UART_PORT, rx_buffer, event.size, pdMS_TO_TICKS(100));
+                    
+                    if (len > 0 && rx_buffer[0] == MOTOR_ADDRESS) { // Check for motor ID match
+                        motor_params_t params = {
+                            .target_angle_deg = ((rx_buffer[1] << 8) | rx_buffer[2]) / 100.0f,
+                            .direction_cw = rx_buffer[3] & 0x01,
+                            .half_period_us = rx_buffer[4],
+                            .torque_limit = 255
+                        };
 
-                        if(param.frequancy < MAX_freq)param.frequancy = MAX_freq;
-                        
-                        ESP_LOGI(TAG, "Received data: %0.3f degree, %d direction, %d torque_limit, %d speed", 
-                            param.target_degree, param.direction, param.torque_limit, param.frequancy);
-                        if (xQueueSend(motor_params_queue, &param, 100) != pdTRUE) {
-                            ESP_LOGE(TAG, "Failed to send motor parameters to queue");
+                        // Enforce minimum speed limit
+                        if (params.half_period_us < MIN_HALF_PERIOD_US) {
+                            params.half_period_us = MIN_HALF_PERIOD_US;
                         }
-                        // gpio_set_level(BUILT_IN_LED,1);
-                        // vTaskDelay(pdMS_TO_TICKS(300));
-                        // gpio_set_level(BUILT_IN_LED,0);
+
+                        ESP_LOGD(TAG, "Received command: %.2f°, %s, %dμs",
+                            params.target_angle_deg,
+                            params.direction_cw ? "CW" : "CCW",
+                            params.half_period_us);
+
+                        if (xQueueSend(motor_params_queue, &params, pdMS_TO_TICKS(100)) != pdTRUE) {
+                            ESP_LOGE(TAG, "Failed to enqueue motor parameters");
+                        }
                     }
                     memset(rx_buffer,0,sizeof(rx_buffer));
                     break;
-
+                }
                 case UART_FRAME_ERR:
-
-                    ESP_LOGE(TAG,"UART_FRAME_ERR");
+                    ESP_LOGE(TAG, "UART framing error");
                     break;
-                    default:break;
-            }     
-        }
-    }
-
-}
-void motor_control_task(void *pvParmeter)
-{
-    motor_params_t p;
-    while(1)
-    {
-        if(xQueueReceive(motor_params_queue, &p, 50) == pdTRUE)
-        {
-            counter++;
-            gpio_set_level(SIGN, p.direction);
-            pulses = p.target_degree * PULSE_PER_DEGREE;
-            
-            for(int i=0;i<pulses;i++)
-            {
-                gpio_set_level(PULSE, 1);
-                esp_rom_delay_us(p.frequancy);
-                gpio_set_level(PULSE, 0);
-                esp_rom_delay_us(p.frequancy);
+                default:
+                    break;
             }
-            if(p.direction == 1)deg += p.target_degree;
-            else deg-= p.target_degree;
-            ESP_LOGI(TAG, "motor moved : %0.6f degree in %d direction with %d speed.",p.target_degree,p.direction,p.frequancy);
-        }else 
-        {
-            ESP_LOGI(TAG,"%0.2f degree, %d number of message.",deg, counter);
         }
     }
-    vTaskDelete(NULL);
 }
+
+// Task handling motor movements
+void motor_control_task(void *pvParameter)
+{
+    motor_params_t params;
+    const TickType_t idle_delay = pdMS_TO_TICKS(100);
+    
+    while (true) {
+        if (xQueueReceive(motor_params_queue, &params, pdMS_TO_TICKS(50)) == pdTRUE) {
+            movement_count++;
+            
+            // Configure motor direction
+            gpio_set_level(MOTOR_DIRECTION_PIN, params.direction_cw);
+            
+            // Calculate required pulses
+            int pulse_count = (int)(params.target_angle_deg * PULSES_PER_DEGREE);
+            
+            // Generate pulses
+            for (int i = 0; i < pulse_count; i++) {
+                gpio_set_level(MOTOR_PULSE_PIN, 1);
+                esp_rom_delay_us(params.half_period_us);
+                gpio_set_level(MOTOR_PULSE_PIN, 0);
+                esp_rom_delay_us(params.half_period_us);
+            }
+            
+            // Update position tracking
+            current_angle_deg += params.direction_cw ? params.target_angle_deg : -params.target_angle_deg;
+            
+            ESP_LOGI(TAG, "Moved %.3f° %s, %d pulses", 
+                   params.target_angle_deg,
+                   params.direction_cw ? "CW" : "CCW",
+                   pulse_count);
+        } else {
+            ESP_LOGD(TAG, "Current angle: %.2f°, Movements: %d", current_angle_deg, movement_count);
+            vTaskDelay(idle_delay);
+        }
+    }
+}
+
 void app_main(void)
 {
-    uart_init();
+    // Initialize peripherals
     gpio_init();
-
-    motor_params_queue = xQueueCreate(100, sizeof(motor_params_t)); 
-    if (motor_params_queue == NULL) {
-        ESP_LOGE(TAG, "Failed to create motor_params_queue");
+    uart_init();
+    
+    // Create communication queue
+    motor_params_queue = xQueueCreate(MAX_QUEUE_SIZE, sizeof(motor_params_t));
+    if (!motor_params_queue) {
+        ESP_LOGE(TAG, "Failed to create motor parameters queue");
         return;
     }
-    vTaskDelay(100 / portTICK_PERIOD_MS);
-
-    xTaskCreatePinnedToCore(receive_event_task, "receive_event_task", 2048 * 2, NULL, 5, NULL, 1);
-    xTaskCreatePinnedToCore(motor_control_task, "motor_control_task", 2048 * 2, NULL, 5, NULL, 0);
-
+    
+    // Start tasks
+    xTaskCreatePinnedToCore(receive_event_task, "UART Receiver", 4096, NULL, 5, NULL, 1);
+    xTaskCreatePinnedToCore(motor_control_task, "Motor Controller", 4096, NULL, 5, NULL, 0);
+    
+    ESP_LOGI(TAG, "System initialized successfully");
 }
 
 void uart_init(void)
@@ -142,37 +156,33 @@ void uart_init(void)
     uart_config_t uart_config = {
         .baud_rate = 115200,
         .data_bits = UART_DATA_8_BITS,
-        .parity    = UART_PARITY_DISABLE,
+        .parity = UART_PARITY_DISABLE,
         .stop_bits = UART_STOP_BITS_1,
         .flow_ctrl = UART_HW_FLOWCTRL_DISABLE,
         .source_clk = UART_SCLK_DEFAULT
-        };
-    ESP_ERROR_CHECK(uart_param_config(UART_NUM_1, &uart_config));
-    ESP_ERROR_CHECK(uart_set_pin(UART_NUM_1,TXD2, RXD2,UART_PIN_NO_CHANGE,UART_PIN_NO_CHANGE));
-    ESP_ERROR_CHECK(uart_driver_install(UART_NUM_1, 1024 * 2, 1024 * 2, 30, &uart_event_queue, 0));
+    };
     
+    ESP_ERROR_CHECK(uart_param_config(UART_PORT, &uart_config));
+    ESP_ERROR_CHECK(uart_set_pin(UART_PORT, UART_TXD_PIN, UART_RXD_PIN, UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE));
+    ESP_ERROR_CHECK(uart_driver_install(UART_PORT, UART_BUFFER_SIZE * 2, UART_BUFFER_SIZE * 2, UART_QUEUE_SIZE, &uart_event_queue, 0));
 }
-void RS485_Send(uart_port_t uart_port,uint8_t* buf,uint16_t size)
-{
-    gpio_set_level(RTC,1);
-    uart_write_bytes(uart_port,buf,size);
-    ESP_ERROR_CHECK(uart_wait_tx_done(uart_port, 100));
-    gpio_set_level(RTC,0);
-}
+
 void gpio_init(void)
 {
-    gpio_reset_pin(PULSE);
-    gpio_reset_pin(SIGN);
-    gpio_reset_pin(SON);
-    gpio_reset_pin(BUILT_IN_LED);
-
-    gpio_set_direction(PULSE, GPIO_MODE_OUTPUT);
-    gpio_set_direction(SIGN, GPIO_MODE_OUTPUT);
-    gpio_set_direction(SON, GPIO_MODE_OUTPUT);
+    // Configure motor control pins
+    gpio_set_direction(MOTOR_PULSE_PIN, GPIO_MODE_OUTPUT);
+    gpio_set_direction(MOTOR_DIRECTION_PIN, GPIO_MODE_OUTPUT);
+    gpio_set_direction(MOTOR_ENABLE_PIN, GPIO_MODE_OUTPUT);
     gpio_set_direction(BUILT_IN_LED, GPIO_MODE_OUTPUT);
-
-    gpio_set_level(SON, 1);
-    vTaskDelay(pdMS_TO_TICKS(3000));
-
+    
+    // Configure RS485 direction control
+    gpio_set_direction(RTC_PIN, GPIO_MODE_OUTPUT);
+    
+    // Initial pin states
+    gpio_set_level(MOTOR_ENABLE_PIN, 1);  // Enable motor driver
+    gpio_set_level(BUILT_IN_LED, 0);      // LED off
+    gpio_set_level(RTC_PIN, 0);           // Default UART receive mode
+    
+    // Allow time for motor driver initialization
+    vTaskDelay(pdMS_TO_TICKS(2000));
 }
-
