@@ -18,19 +18,11 @@ We are a team of **Mechatronics and Robotics Engineering students** working on t
 
 ## 🔍 Project Structure
 
-├── /low_level_control # Firmware and hardware interface for motors/sensors
-|
-|
-├── /high_level_control # ROS nodes, planners, and control strategies
-|
-|
-├── /docs # Documentation and setup guides
-|
-|
-├── LICENSE
-|
-|
-└── README.md
+/low_level_control - Firmware and hardware interface for motors/sensors
+/high_level_control - ROS nodes, planners, and control strategies
+/docs - Documentation and setup guides
+LICENSE
+README.md
 
 ---
 
