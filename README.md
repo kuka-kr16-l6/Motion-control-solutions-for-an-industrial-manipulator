@@ -18,17 +18,17 @@ We are a team of **Mechatronics and Robotics Engineering students** working on t
 
 ## 🔍 Project Structure
 
-- low_level_control/# Embedded C/C++ Firmware and hardware interface for motors/sensors
+- **low_level_control/** Embedded C/C++ Firmware and hardware interface for motors/sensors
   
-- high_level_control/# ROS2 nodes, planners, and control strategies
+- **high_level_control/** ROS2 nodes, planners, and control strategies
 
-- simulation/# Gazebo/URDF files
+- **simulation/** Gazebo/URDF files
 
-- docs/# Technical documentation
+- **docs/** Technical documentation
 
-- LICENSE
+- **LICENSE**
 
-- README.md
+- **README.md**
 
 ---
 
