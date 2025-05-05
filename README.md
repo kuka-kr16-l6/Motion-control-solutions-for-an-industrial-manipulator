@@ -11,7 +11,7 @@ This repository contains the development work for both **low-level** and **high-
 We are a team of **Mechatronics and Robotics Engineering students** working on this project under the guidance of our academic supervisors.
 
 - 🔧 **Focus**: Low-level motor and sensor interfacing, real-time control, and high-level task planning  
-- 🧪 **Technologies**: Embedded C/C++, FreeRTOS industrial communication protocols (e.g., RS485, Modbus, etc.), ROS2 Humble, Gazebo  
+- 🧪 **Technologies**: Embedded C/C++, FreeRTOS, industrial communication protocols (e.g., RS485, Modbus, etc.), ROS2 Humble, Gazebo  
 - 🎓 **Goal**: Gain industry-ready experience and contribute to open robotic systems
 
 ---
