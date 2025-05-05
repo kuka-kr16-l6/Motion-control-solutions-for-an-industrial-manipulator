@@ -24,7 +24,7 @@ We are a team of **Mechatronics and Robotics Engineering students** working on t
 ## 🧰 Technologies & Tools
 
 - **KUKA KR16** robot arm  
-- **Embedded systems** (microcontrollers for real-time control)  
+- **Embedded systems** (esp32)  
 - **ROS2** for high-level control and simulation  
 - **Linux / Ubuntu** development environment  
 
@@ -33,15 +33,8 @@ We are a team of **Mechatronics and Robotics Engineering students** working on t
 ## 🧑‍🏫 Supervisors
 
 We are grateful for the support and mentorship of our supervisors:
-- Dr. [Ahmed Saad]
-- Dr. [Gamal Abd elnaser]
-
-
----
-
-## 🤝 Contributions
-
-This is an educational and collaborative project. Contributions from students, researchers, and robotics enthusiasts are welcome!
+- Dr. Ahmed Saad
+- Dr. Gamal Abd elnaser
 
 ---
 
