@@ -35,7 +35,7 @@ We are a team of **Mechatronics and Robotics Engineering students** working on t
 ## 🧰 Technologies & Tools
 
 - **KUKA KR16** robot arm  
-- **Embedded systems** (esp32 for real-time control)  
+- **Embedded systems** (esp32, ESP-IDF Framework for real-time control)  
 - **ROS2** for high-level control and simulation  
 - **Linux / Ubuntu** development environment  
 
