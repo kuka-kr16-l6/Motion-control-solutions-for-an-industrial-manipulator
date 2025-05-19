@@ -91,6 +91,7 @@ void recieve_modbus_task(void *pvParameter){
             if (xQueueSend(motor_params_queue, &param, 100) != pdTRUE) {
                 ESP_LOGE(TAG, "Failed to send motor parameters to queue");
             }
+            
            portEXIT_CRITICAL(&param_lock);
            ESP_LOGI(TAG, "received %.3f degree, %d direction, %d delay.", param.target_angle_deg, param.direction, param.half_period_us);
         }

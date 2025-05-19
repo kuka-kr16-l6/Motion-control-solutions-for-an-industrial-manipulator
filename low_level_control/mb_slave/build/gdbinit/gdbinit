@@ -1,2 +1,0 @@
-source /home/mego/esp/esp-idf/examples/protocols/modbus/serial/mb_slave/build/gdbinit/symbols
-source /home/mego/esp/esp-idf/examples/protocols/modbus/serial/mb_slave/build/gdbinit/connect
