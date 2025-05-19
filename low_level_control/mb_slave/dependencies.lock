@@ -1,0 +1,28 @@
+dependencies:
+  espressif/esp-modbus:
+    component_hash: 5d5e90b9e55721a8a194b301ad8102d4affb647f47b74cd413ff7d1ce2c1169c
+    dependencies:
+    - name: idf
+      require: private
+      version: '>=4.3'
+    source:
+      registry_url: https://components.espressif.com/
+      type: service
+    version: 1.0.18
+  idf:
+    source:
+      type: idf
+    version: 5.4.1
+  mb_example_common:
+    dependencies: []
+    source:
+      path: /home/mego/esp/esp-idf/examples/protocols/modbus/mb_example_common
+      type: local
+    version: '*'
+direct_dependencies:
+- espressif/esp-modbus
+- idf
+- mb_example_common
+manifest_hash: 32632551e6f36d299af0964da1db82a7051128dd53f475ebb4cc0776786a7bbb
+target: esp32
+version: 2.0.0

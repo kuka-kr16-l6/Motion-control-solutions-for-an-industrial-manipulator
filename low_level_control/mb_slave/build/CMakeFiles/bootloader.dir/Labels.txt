@@ -1,0 +1,13 @@
+# Target labels
+ bootloader
+# Source files and their labels
+/home/mego/esp/esp-idf/examples/protocols/modbus/serial/mb_slave/build/CMakeFiles/bootloader
+/home/mego/esp/esp-idf/examples/protocols/modbus/serial/mb_slave/build/CMakeFiles/bootloader.rule
+/home/mego/esp/esp-idf/examples/protocols/modbus/serial/mb_slave/build/CMakeFiles/bootloader-complete.rule
+/home/mego/esp/esp-idf/examples/protocols/modbus/serial/mb_slave/build/bootloader-prefix/src/bootloader-stamp/bootloader-build.rule
+/home/mego/esp/esp-idf/examples/protocols/modbus/serial/mb_slave/build/bootloader-prefix/src/bootloader-stamp/bootloader-configure.rule
+/home/mego/esp/esp-idf/examples/protocols/modbus/serial/mb_slave/build/bootloader-prefix/src/bootloader-stamp/bootloader-download.rule
+/home/mego/esp/esp-idf/examples/protocols/modbus/serial/mb_slave/build/bootloader-prefix/src/bootloader-stamp/bootloader-install.rule
+/home/mego/esp/esp-idf/examples/protocols/modbus/serial/mb_slave/build/bootloader-prefix/src/bootloader-stamp/bootloader-mkdir.rule
+/home/mego/esp/esp-idf/examples/protocols/modbus/serial/mb_slave/build/bootloader-prefix/src/bootloader-stamp/bootloader-patch.rule
+/home/mego/esp/esp-idf/examples/protocols/modbus/serial/mb_slave/build/bootloader-prefix/src/bootloader-stamp/bootloader-update.rule

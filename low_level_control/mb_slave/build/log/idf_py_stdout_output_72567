@@ -1,0 +1,37 @@
+[1/11] Building C object esp-idf/main/CMakeFiles/__idf_main.dir/slave.c.obj
+/home/mego/esp/esp-idf/examples/protocols/modbus/serial/mb_slave/main/slave.c:26:13: warning: 'setup_led' defined but not used [-Wunused-function]
+   26 | static void setup_led(void)
+      |             ^~~~~~~~~
+[2/11] Linking C static library esp-idf/main/libmain.a
+[3/11] Performing configure step for 'bootloader'
+-- Building ESP-IDF components for target esp32
+-- Project sdkconfig file /home/mego/esp/esp-idf/examples/protocols/modbus/serial/mb_slave/sdkconfig
+-- Compiler supported targets: xtensa-esp-elf
+-- Adding linker script /home/mego/esp/esp-idf/components/soc/esp32/ld/esp32.peripherals.ld
+-- Bootloader project name: "bootloader" version: 1
+-- Adding linker script /home/mego/esp/esp-idf/components/esp_rom/esp32/ld/esp32.rom.ld
+-- Adding linker script /home/mego/esp/esp-idf/components/esp_rom/esp32/ld/esp32.rom.api.ld
+-- Adding linker script /home/mego/esp/esp-idf/components/esp_rom/esp32/ld/esp32.rom.libgcc.ld
+-- Adding linker script /home/mego/esp/esp-idf/components/esp_rom/esp32/ld/esp32.rom.newlib-funcs.ld
+-- Adding linker script /home/mego/esp/esp-idf/components/bootloader/subproject/main/ld/esp32/bootloader.ld
+-- Adding linker script /home/mego/esp/esp-idf/components/bootloader/subproject/main/ld/esp32/bootloader.rom.ld
+-- Components: bootloader bootloader_support efuse esp_app_format esp_bootloader_format esp_common esp_hw_support esp_rom esp_security esp_system esptool_py freertos hal log main micro-ecc newlib partition_table soc spi_flash xtensa
+-- Component paths: /home/mego/esp/esp-idf/components/bootloader /home/mego/esp/esp-idf/components/bootloader_support /home/mego/esp/esp-idf/components/efuse /home/mego/esp/esp-idf/components/esp_app_format /home/mego/esp/esp-idf/components/esp_bootloader_format /home/mego/esp/esp-idf/components/esp_common /home/mego/esp/esp-idf/components/esp_hw_support /home/mego/esp/esp-idf/components/esp_rom /home/mego/esp/esp-idf/components/esp_security /home/mego/esp/esp-idf/components/esp_system /home/mego/esp/esp-idf/components/esptool_py /home/mego/esp/esp-idf/components/freertos /home/mego/esp/esp-idf/components/hal /home/mego/esp/esp-idf/components/log /home/mego/esp/esp-idf/components/bootloader/subproject/main /home/mego/esp/esp-idf/components/bootloader/subproject/components/micro-ecc /home/mego/esp/esp-idf/components/newlib /home/mego/esp/esp-idf/components/partition_table /home/mego/esp/esp-idf/components/soc /home/mego/esp/esp-idf/components/spi_flash /home/mego/esp/esp-idf/components/xtensa
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/mego/esp/esp-idf/examples/protocols/modbus/serial/mb_slave/build/bootloader
+[4/11] Performing build step for 'bootloader'
+[1/1] cd /home/mego/esp/esp-idf/examples/protocols/modbus/serial/mb_slave/build/bootloader/esp-idf/esptool_py && /home/mego/.espressif/python_env/idf5.4_py3.10_env/bin/python /home/mego/esp/esp-idf/components/partition_table/check_sizes.py --offset 0x8000 bootloader 0x1000 /home/mego/esp/esp-idf/examples/protocols/modbus/serial/mb_slave/build/bootloader/bootloader.bin
+Bootloader binary size 0x6580 bytes. 0xa80 bytes (9%) free.
+[5/10] Completed 'bootloader'
+[6/10] Generating ld/sections.ld
+[7/10] Building C object CMakeFiles/modbus_slave.elf.dir/project_elf_src_esp32.c.obj
+[8/10] Linking CXX executable modbus_slave.elf
+[9/10] Generating binary image from built executable
+esptool.py v4.8.1
+Creating esp32 image...
+Merged 2 ELF sections
+Successfully created esp32 image.
+Generated /home/mego/esp/esp-idf/examples/protocols/modbus/serial/mb_slave/build/modbus_slave.bin
+[10/10] cd /home/mego/esp/esp-idf/examples/protocols/modbus/serial/mb_slave/build/esp-idf/esptool_py && /home/mego/.espressif/python_env/idf5.4_py3.10_env/bin/python /home/mego/esp/esp-idf/components/partition_table/check_sizes.py --offset 0x8000 partition --type app /home/mego/esp/esp-idf/examples/protocols/modbus/serial/mb_slave/build/partition_table/partition-table.bin /home/mego/esp/esp-idf/examples/protocols/modbus/serial/mb_slave/build/modbus_slave.bin
+modbus_slave.bin binary size 0x375f0 bytes. Smallest app partition is 0x100000 bytes. 0xc8a10 bytes (78%) free.
