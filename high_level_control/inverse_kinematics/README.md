@@ -9,31 +9,42 @@ Here is a Denavit-Hartenberg (DH) diagram of the Kuka KR16 L6:
 
 The arm consists of six revolute joints connected in linear fashion.
 
-## Denavit-Hartenberg Table
+## 📐 Denavit-Hartenberg Table
 
-Based on the arm's specifications, the following parameter were derived:
+The following DH parameters are based on the physical specifications of the KUKA KR16 L6:
 
-| n |  theta |   d   |    a   | alpha |
-|:-:|:------:|:-----:|:------:|:-----:|
-| 1 | theta1 | 0.675 |  0.26  | -pi/2 |
-| 2 | theta2 |   0   |  0.68  |   0   |
-| 3 | theta3 |   0   | -0.035 | -pi/2 |
-| 4 | theta4 | 0.97  |    0   |  pi/2 |
-| 5 | theta5 |   0   |    0   | -pi/2 |
-| 6 | theta6 | 0.115 |    0   |   0   |
+> All distances are in meters, angles in radians.
 
-The a and alpha parameters do not change because they are specific to each arm. However, the theta and d parameters can change depending on the orientation of the arm. But for this arm, only the theta parameters will change since all the joints are revolute.
+| Joint (n) | θ (theta) |    d    |    a    | α (alpha) |
+|:---------:|:---------:|:-------:|:-------:|:---------:|
+|     1     |  θ₁       |  0.675  |  0.260  |  -π/2     |
+|     2     |  θ₂       |   0     |  0.680  |   0       |
+|     3     |  θ₃       |   0     | -0.035  |  -π/2     |
+|     4     |  θ₄       |  0.970  |   0     |   π/2     |
+|     5     |  θ₅       |   0     |   0     |  -π/2     |
+|     6     |  θ₆       |  0.115  |   0     |   0       |
 
+- The `a` and `alpha` parameters are constant for each joint as they depend on the robot’s mechanical design.
+- Only the `theta` parameters vary since all joints are revolute.
 
-## Inverse Kinematics
+---
 
-To solve the inverse kinematics of the Kuka KR16 L6, a **geometric solution** approach was used. This method leverages the specific structure of the robot — particularly its spherical wrist configuration — to analytically derive joint angles based on the position and orientation of the end effector.
+## 🔁 Inverse Kinematics (IK)
 
-### Steps:
-1. **Compute the wrist center**: Subtract the last link offset along the end-effector z-axis.
-2. **Solve for first three joints (theta1–theta3)** using geometric relationships.
-3. **Compute rotation from joint 3 to 6**.
-4. **Solve for wrist orientation (theta4–theta6)** from the rotation matrix.
+An **analytical geometric solution** is used to compute the joint angles required to reach a desired pose. This approach leverages the structure of the robot — especially the **spherical wrist configuration** — for simplification.
+
+### IK Steps:
+1. **Compute the wrist center**  
+   Subtract the last link offset along the end-effector z-axis.
+
+2. **Solve for first three joints (θ₁–θ₃)**  
+   Use geometric and trigonometric relationships.
+
+3. **Compute rotation from joint 3 to 6**  
+   Derive the rotation matrix from base to wrist, then isolate wrist rotation.
+
+4. **Solve for wrist joints (θ₄–θ₆)**  
+   Extract angles from the wrist rotation matrix.
 
 ---
 
