@@ -46,5 +46,5 @@ See the [hardware connection schematic](<INSERT-LINK-HERE>) for wiring details.
 - Not currently supported for simulation
 
 You can view the implementation in this file:  
-👉 [main source code](./mb_slave/main/slave.c)
+👉 [main source code](./slave.c)
 
