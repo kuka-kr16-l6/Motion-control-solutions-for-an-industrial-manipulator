@@ -2,7 +2,5 @@
     "files.associations": {
         "*.py": "python",
         "modbus_params.h": "c"
-    },
-    "idf.port": "/dev/ttyUSB0",
-    "C_Cpp.errorSquiggles": "disabled"
+    }
 }
