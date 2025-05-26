@@ -12,12 +12,12 @@ This document serves as a comprehensive guide for understanding and maintaining 
 
 ### 3. 🔧 Hardware Setup
 
-* **Components**: ESP32 (3x), RS-485 transceivers (e.g., MAX485), motors (servo/stepper), motor drivers, power supply, Raspberry Pi (or PC) as master.
+* **Components**: ESP32 (3x), RS-485 transceivers (e.g., MAX485), motors (servo), motor drivers, power supply, PC as master.
 * **Connections**: ESP32 UART to MAX485, motor driver to GPIO, power lines as per motor specs.
 
 ### 4. 🧑‍💻 Software Setup
 
-* **Development Tools**: ESP-IDF (vX.Y), VS Code with IDF extension, Ubuntu 22.04.
+* **Development Tools**: ESP-IDF (vX.Y), VS Code with IDF extension.
 * **Flashing**: Use `idf.py build` and `idf.py -p /dev/ttyUSBx flash`.
 * **Debugging**: UART logs via `idf.py monitor`.
 
