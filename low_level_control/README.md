@@ -11,12 +11,6 @@ The code manages motor control, communication, and safety features in real-time 
 - Safety checks: joint limits and over-travel protection
 - Runs on ESP32 with FreeRTOS multitasking
 
-## Project Structure
-- mb_slave
-- ├── main
--       └── [slave.c](./mb_slave/main/slave.c)
-
-
 ## Dependencies
 - ESP-IDF v5.4.1  
 - FreeRTOS (built-in in ESP-IDF)  
@@ -50,4 +44,7 @@ See the [hardware connection schematic](<INSERT-LINK-HERE>) for wiring details.
 ## Running & Testing
 - Deployed directly on the ESP32 hardware on the robot joint  
 - Not currently supported for simulation
+
+You can view the implementation in this file:  
+👉 [main source code](./mb_slave/main/slave.c)
 
