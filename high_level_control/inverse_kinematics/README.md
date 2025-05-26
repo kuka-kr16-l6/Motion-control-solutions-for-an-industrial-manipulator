@@ -25,7 +25,7 @@ Based on the arm's specifications, the following parameter were derived:
 The a and alpha parameters do not change because they are specific to each arm. However, the theta and d parameters can change depending on the orientation of the arm. But for this arm, only the theta parameters will change since all the joints are revolute.
 
 
-### Inverse Kinematics
+## Inverse Kinematics
 
 To solve the inverse kinematics of the Kuka KR16 L6, a **geometric solution** approach was used. This method leverages the specific structure of the robot — particularly its spherical wrist configuration — to analytically derive joint angles based on the position and orientation of the end effector.
 
