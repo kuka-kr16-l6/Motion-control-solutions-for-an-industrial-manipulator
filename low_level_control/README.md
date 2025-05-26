@@ -12,8 +12,8 @@ The code manages motor control, communication, and safety features in real-time 
 - Runs on ESP32 with FreeRTOS multitasking
 
 ## Project Structure
-mb_slave/
-├── main/
+mb_slave
+├── main
 │ └── slave.c # Main control logic for this joint
 
 
