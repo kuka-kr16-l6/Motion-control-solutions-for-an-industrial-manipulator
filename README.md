@@ -9,7 +9,8 @@
 4. [High Level Control](#4-High-Level-Control)
     - [Kinematics](#kinematics)
     - [Trajectory](#trajectory)
-5. [About the Team](#5-About-the-Team)
+5. [Simulation](#5-simulation)
+6. [About the Team](#6-About-the-Team)
 
 ## 1. Introduction
 
@@ -213,7 +214,17 @@ You can view the implementation in this file:
 ## Trajectory
 
 
-## 5. About the Team
+## 5. Simulation
+   ### Gazebo Simulation Package
+    A complete Gazebo simulation environment for the KUKA KR16 L6 is provided. The simulation includes the robot model with proper joint configurations and URDF/Xacro files. It allows for testing and visualization of robot behavior in a virtual environment, aiding in development and validation before deployment on real hardware.
+    [kr16_l6_pkg](./simulation_pkg/kr16_l6/)
+
+
+   ### ROS 2 Control Package (Humble)
+    A control package built using ROS 2 Humble is included to interface with the simulated or physical KUKA KR16 L6 robot. It provides essential ROS 2 nodes, launch files, and configurations for controlling the robot’s joints and executing motion commands. This package forms the foundation for integrating motion planning, feedback control, and autonomous behaviors.
+    [kr16_l6_control](./simulation_pkg/kr16_l6_control/)
+
+## 6. About the Team
 
 We are a team of **Mechatronics and Robotics Engineering students** working on this project under the guidance of our academic supervisors.
 
