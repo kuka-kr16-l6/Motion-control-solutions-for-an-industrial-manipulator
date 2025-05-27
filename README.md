@@ -32,6 +32,8 @@ The project is designed to provide hands-on experience in:
 ---
 
 ## 2. Hardware
+A detailed PDF datasheet for the KUKA KR16 L6 robotic arm is included. It contains comprehensive technical specifications, including joint limits, reach, payload, accuracy, weight, and power requirements. This document serves as a reference for modeling, simulation, and control design.
+[kr16_l6_datasheet](./data/MA_KR_6_16_en.pdf)
 
 ### Mechanical
 A SolidWorks assembly model of the KUKA KR16 L6 robotic arm is included. This model provides an accurate representation of the robot’s external structure, suitable for visualization, workspace analysis, and physical integration planning. Please note that the model does not include internal mechanical or electrical components.
