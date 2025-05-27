@@ -1,5 +1,10 @@
 # 🦾 KUKA KR16 Robot Arm Control
 
+## Table of content
+- [High Level](./high_level_control)
+  - [Jacobian](./high_level_control/jacobian)
+  - [Inverse kinematics](./high_level_control/inverse_kinematics/)
+
 ## 🎯 Project Overview
 
 This repository contains the development work for both **low-level** and **high-level control** of the **KUKA KR16 industrial robot arm**. The project aims to bridge embedded systems with robotic motion control, offering hands-on experience in real-time control, communication protocols, and motion planning.
