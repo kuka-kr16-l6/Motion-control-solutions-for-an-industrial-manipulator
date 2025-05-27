@@ -2,13 +2,13 @@
 
 ## Table of content
 1. [Introduction](#1-Introduction)
-2. [Hardware](#2-Harware)
-    - [Mechanical](#-Mechanical)
-    - [Electrical](#-Electrical)
+2. [Hardware](#2-Hardware)
+    - [Mechanical](#mechanical)
+    - [Electrical](#electrical)
 3. [Low Level Control](#3-Low-Level-Control)
 4. [High Level Control](#4-High-Level-Control)
-    - [Kinematics](#-Kinematics)
-    - [Trajectory](#-Trajectory)
+    - [Kinematics](#kinematics)
+    - [Trajectory](#trajectory)
 
 ## 1. Introduction
 
