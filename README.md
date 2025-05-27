@@ -33,6 +33,10 @@ The project is designed to provide hands-on experience in:
 ## 2. Hardware
 
 ### Mechanical
+A SolidWorks assembly model of the KUKA KR16 L6 robotic arm is included. This model provides an accurate representation of the robot’s external structure, suitable for visualization, workspace analysis, and physical integration planning. Please note that the model does not include internal mechanical or electrical components.
+[SolidWorks assembly](./hardware/mechanical/solidworks_assembly/kr16_l6)
+
+---
 
 ### Electrical
 
@@ -123,7 +127,7 @@ It includes geometric parameters and a method to compute the homogeneous transfo
 
 For a complete breakdown of the kinematic model configuration, joint parameters, and transformation setup, refer to the documentation:
 
-- [🔧 Robot Configuration Documentation (PDF)](./hardware/mechanical/data/db_kr_16_l6_en.pdf)
+- [🔧 Robot Configuration Documentation (PDF)](./data/db_kr_16_l6_en.pdf)
 
 
 This document supports the implementation and can help you verify or customize the DH model used in the code.
