@@ -13,8 +13,20 @@
 
 ## 1. Introduction
 
-This repository contains the development work for both **low-level** and **high-level control** of the **KUKA KR16 industrial robot arm**. The project aims to bridge embedded systems with robotic motion control, offering hands-on experience in real-time control, communication protocols, and motion planning.
 
+This repository documents the development of both low-level and high-level control systems for the KUKA KR16 L6 industrial robotic arm. The objective is to integrate embedded hardware with advanced robotic motion planning, offering a comprehensive platform for real-time motor control, communication protocols, kinematic modeling, and trajectory planning.
+
+The project is designed to provide hands-on experience in:
+
+- Low-level interfacing with industrial servo drives using microcontrollers and real-time operating systems (FreeRTOS)
+
+- High-level motion control algorithms including forward/inverse kinematics and Jacobian computation
+
+- Industrial communication via Modbus RTU over RS-485
+
+- Practical implementation of control theory in a real robotic system
+
+Whether you're working on robotics research, industrial automation, or control systems education, this repository serves as a modular, scalable, and open starting point for working with 6-DOF industrial arms.
 ---
 
 ## 2. Hardware
