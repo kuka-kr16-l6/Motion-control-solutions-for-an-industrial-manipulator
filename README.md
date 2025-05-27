@@ -75,9 +75,121 @@ You can view the implementation in this file:
 
 ## 4. High Level Control
 
-### Kinematics
+## Kinematics
+- [Forward Kinematics](#denavit-hartenberg-diagram)
+- [Inverse Kinematics](#inverse-kinematics-ik)
+- [Jacobian Matrix](#jacobian-matrix)
 
-### Trajectory
+### Robot Kinematics Model – KUKA KR16 L6
+
+This module defines the kinematic structure of the **KUKA KR16 L6** robotic arm using the **Denavit-Hartenberg (DH)** convention.
+It includes geometric parameters and a method to compute the homogeneous transformation matrix for each link.
+
+---
+
+
+###  Features
+
+- Defines full Denavit-Hartenberg parameters for the KUKA KR16 L6 robot
+
+- Provides a method to compute the homogeneous transformation matrix for any link
+
+- Includes joint limits for all 6 revolute joints
+
+- Designed for easy integration with inverse kinematics, Jacobian computation, and simulation modules
+
+- Lightweight and efficient using NumPy arrays for matrix operations
+
+---
+
+###  Configuration Guide
+
+For a complete breakdown of the kinematic model configuration, joint parameters, and transformation setup, refer to the documentation:
+
+- [🔧 Robot Configuration Documentation (PDF)](./hardware/mechanical/data/db_kr_16_l6_en.pdf)
+
+
+This document supports the implementation and can help you verify or customize the DH model used in the code.
+
+
+You can view the implementation in this file:  
+👉 [Parameters Implementation](./high_level_control/parameters/robot.py)
+
+[//]: # (Image References)
+[dh_diagram]: ./images/dh_parameter.png
+
+### Denavit-Hartenberg Diagram
+
+Here is a Denavit-Hartenberg (DH) diagram of the Kuka KR16 L6:
+
+![Denavit-Hartenberg diagram of the Kuka KR16 L6 6 DoF arm][dh_diagram]
+
+The arm consists of six revolute joints connected in linear fashion.
+
+### 📐 Denavit-Hartenberg Table
+
+The following DH parameters are based on the physical specifications of the KUKA KR16 L6:
+
+> All distances are in meters, angles in radians.
+
+| Joint (n) | θ (theta) |    d    |    a    | α (alpha) |
+|:---------:|:---------:|:-------:|:-------:|:---------:|
+|     1     |  θ₁       |  0.675  |  0.260  |  -π/2     |
+|     2     |  θ₂       |   0     |  0.680  |   0       |
+|     3     |  θ₃       |   0     | -0.035  |  -π/2     |
+|     4     |  θ₄       |  0.970  |   0     |   π/2     |
+|     5     |  θ₅       |   0     |   0     |  -π/2     |
+|     6     |  θ₆       |  0.115  |   0     |   0       |
+
+- The `a` and `alpha` parameters are constant for each joint as they depend on the robot’s mechanical design.
+- Only the `theta` parameters vary since all joints are revolute.
+
+---
+
+###  Inverse Kinematics (IK)
+
+An **analytical geometric solution** is used to compute the joint angles required to reach a desired pose. This approach leverages the structure of the robot — especially the **spherical wrist configuration** — for simplification.
+
+### IK Steps:
+1. **Compute the wrist center**  
+   Subtract the last link offset along the end-effector z-axis.
+
+2. **Solve for first three joints (θ₁–θ₃)**  
+   Use geometric and trigonometric relationships.
+
+3. **Compute rotation from joint 3 to 6**  
+   Derive the rotation matrix from base to wrist, then isolate wrist rotation.
+
+4. **Solve for wrist joints (θ₄–θ₆)**  
+   Extract angles from the wrist rotation matrix.
+
+---
+
+You can view the implementation in this file:  
+👉 [Inverse Kinematics Implementation](./high_level_control/inverse_kinematics/ik_solver.py)
+
+---
+
+### Jacobian Matrix
+
+This module computes the **Jacobian matrix** for the 6-DOF KUKA KR16 L6 robotic arm using its Denavit-Hartenberg parameters and forward kinematics.
+
+The Jacobian relates joint velocities to the end-effector's linear and angular velocities, which is essential for motion control, singularity analysis, and velocity kinematics.
+
+---
+
+### Features
+
+- Computes the **6×6 geometric Jacobian** (linear + angular velocity)
+- Includes **singularity and conditioning checks**
+
+---
+
+You can view the implementation in this file:  
+👉 [Jacobian Matrix Implementation](./high_level_control/jacobian/jacobian.py)
+
+
+## Trajectory
 
 
 ## 5. About the Team
