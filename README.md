@@ -51,10 +51,8 @@ The code manages motor control, communication, and safety features in real-time 
 
 ### Dependencies
 - ESP-IDF v5.4.1  
-- FreeRTOS (built-in in ESP-IDF)  
-  [FreeRTOS docs](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/system/freertos_idf.html)  
-- ESP-Modbus library  
-  [ESP-Modbus docs](https://docs.espressif.com/projects/esp-modbus/en/latest/esp32/)
+- FreeRTOS (built-in in ESP-IDF)  [FreeRTOS docs](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/system/freertos_idf.html)  
+- ESP-Modbus library  [ESP-Modbus docs](https://docs.espressif.com/projects/esp-modbus/en/latest/esp32/)
 
 ### Hardware Interface
 - ESP32 microcontroller (dual-core, 240 MHz)  
@@ -84,6 +82,12 @@ See the [hardware connection schematic](<INSERT-LINK-HERE>) for wiring details.
 
 You can view the implementation in this file:  
 👉 [main source code](./low_level_control/slave.c)
+
+* **see more References**:
+
+  * [ESP-IDF Documentation](https://docs.espressif.com/projects/esp-idf/en/latest/)
+  * [Modbus RTU Protocol](https://modbus.org/)
+
 
 
 ## 4. High Level Control
