@@ -1,0 +1,354 @@
+<sdf version="1.7">
+  <model name="KR16_L6">
+    <link name="base_link">
+      <inertial>
+        <pose>-0.03708 0.001411 0.216636 0 -0 0</pose>
+        <mass>74.2934</mass>
+        <inertia>
+          <ixx>1.76704</ixx>
+          <ixy>0.0322864</ixy>
+          <ixz>-0.0124317</ixz>
+          <iyy>2.14813</iyy>
+          <iyz>-0.000118351</iyz>
+          <izz>2.27332</izz>
+        </inertia>
+      </inertial>
+      <collision name="base_link_collision">
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>package://kr16_l6/meshes/visual/base_link.STL</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name="base_link_visual">
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>package://kr16_l6/meshes/visual/base_link.STL</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name="joint_1" type="revolute">
+      <pose relative_to="base_link">0.016362 0.004219 0.396923 0 -0 0</pose>
+      <parent>base_link</parent>
+      <child>link_1</child>
+      <axis>
+        <xyz>0 0 -1</xyz>
+        <limit>
+          <lower>-1.57</lower>
+          <upper>1.57</upper>
+          <effort>300</effort>
+          <velocity>3</velocity>
+        </limit>
+        <dynamics>
+          <damping>5</damping>
+          <friction>5</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name="link_1">
+      <pose relative_to="joint_1">0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0.125943 0.018386 0.170971 0 -0 0</pose>
+        <mass>21.654</mass>
+        <inertia>
+          <ixx>0.409777</ixx>
+          <ixy>0.0305561</ixy>
+          <ixz>-0.224924</ixz>
+          <iyy>0.683026</iyy>
+          <iyz>0.0194478</iyz>
+          <izz>0.558909</izz>
+        </inertia>
+      </inertial>
+      <collision name="link_1_collision">
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>package://kr16_l6/meshes/visual/link_1.STL</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name="link_1_visual">
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>package://kr16_l6/meshes/visual/link_1.STL</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name="joint_2" type="revolute">
+      <pose relative_to="link_1">0.244034 -0.087219 0.283451 1.5708 -0 0</pose>
+      <parent>link_1</parent>
+      <child>link_2</child>
+      <axis>
+        <xyz>0 0 -1</xyz>
+        <limit>
+          <lower>-1.57</lower>
+          <upper>1.57</upper>
+          <effort>300</effort>
+          <velocity>3</velocity>
+        </limit>
+        <dynamics>
+          <damping>5</damping>
+          <friction>5</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name="link_2">
+      <pose relative_to="joint_2">0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>-0.000159 0.316017 0.097552 0 -0 0</pose>
+        <mass>13.5188</mass>
+        <inertia>
+          <ixx>0.595736</ixx>
+          <ixy>-0.000339592</ixy>
+          <ixz>0.000241341</ixz>
+          <iyy>0.0592222</iyy>
+          <iyz>-0.0264043</iyz>
+          <izz>0.59391</izz>
+        </inertia>
+      </inertial>
+      <collision name="link_2_collision">
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>package://kr16_l6/meshes/visual/link_2.STL</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name="link_2_visual">
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>package://kr16_l6/meshes/visual/link_2.STL</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name="joint_3" type="revolute">
+      <pose relative_to="link_2">-0.000396 0.674626 0.034 0 -0 3.14159</pose>
+      <parent>link_2</parent>
+      <child>link_3</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1.57</lower>
+          <upper>1.57</upper>
+          <effort>300</effort>
+          <velocity>3</velocity>
+        </limit>
+        <dynamics>
+          <damping>5</damping>
+          <friction>5</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name="link_3">
+      <pose relative_to="joint_3">0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>-0.12727 0.022507 -0.125078 0 -0 0</pose>
+        <mass>20.1227</mass>
+        <inertia>
+          <ixx>0.0760529</ixx>
+          <ixy>0.030622</ixy>
+          <ixz>-0.033944</ixz>
+          <iyy>1.089</iyy>
+          <iyz>0.00467363</iyz>
+          <izz>1.09971</izz>
+        </inertia>
+      </inertial>
+      <collision name="link_3_collision">
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>package://kr16_l6/meshes/visual/link_3.STL</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name="link_3_visual">
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>package://kr16_l6/meshes/visual/link_3.STL</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name="joint_4" type="revolute">
+      <pose relative_to="link_3">-0.702 0.035 -0.117 3.14159 1.5708 0</pose>
+      <parent>link_3</parent>
+      <child>link_4</child>
+      <axis>
+        <xyz>0 0 -1</xyz>
+        <limit>
+          <lower>-1.57</lower>
+          <upper>1.57</upper>
+          <effort>300</effort>
+          <velocity>3</velocity>
+        </limit>
+        <dynamics>
+          <damping>5</damping>
+          <friction>5</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name="link_4">
+      <pose relative_to="joint_4">0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>-0.00619 1.4e-05 0.121374 0 -0 0</pose>
+        <mass>2.89358</mass>
+        <inertia>
+          <ixx>0.0215072</ixx>
+          <ixy>1.48067e-06</ixy>
+          <ixz>0.00134423</ixz>
+          <iyy>0.0235662</iyy>
+          <iyz>-6.71215e-06</iyz>
+          <izz>0.00667071</izz>
+        </inertia>
+      </inertial>
+      <collision name="link_4_collision">
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>package://kr16_l6/meshes/visual/link_4.STL</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name="link_4_visual">
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>package://kr16_l6/meshes/visual/link_4.STL</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name="joint_5" type="revolute">
+      <pose relative_to="link_4">0.053 0 0.268 3.14159 1.5708 0</pose>
+      <parent>link_4</parent>
+      <child>link_5</child>
+      <axis>
+        <xyz>0 0 -1</xyz>
+        <limit>
+          <lower>-1.57</lower>
+          <upper>1.57</upper>
+          <effort>300</effort>
+          <velocity>3</velocity>
+        </limit>
+        <dynamics>
+          <damping>5</damping>
+          <friction>5</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name="link_5">
+      <pose relative_to="joint_5">0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>-0.032379 -0 0.043182 0 -0 0</pose>
+        <mass>0.808099</mass>
+        <inertia>
+          <ixx>0.00076025</ixx>
+          <ixy>-1.15602e-11</ixy>
+          <ixz>0.000203503</ixz>
+          <iyy>0.00178549</iyy>
+          <iyz>1.64521e-11</iyz>
+          <izz>0.00176862</izz>
+        </inertia>
+      </inertial>
+      <collision name="link_5_collision">
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>package://kr16_l6/meshes/visual/link_5.STL</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name="link_5_visual">
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>package://kr16_l6/meshes/visual/link_5.STL</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name="joint_6" type="revolute">
+      <pose relative_to="link_5">-0.1088 0 0.053 3.14159 1.5708 0</pose>
+      <parent>link_5</parent>
+      <child>link_6</child>
+      <axis>
+        <xyz>0 0 -1</xyz>
+        <limit>
+          <lower>-1.57</lower>
+          <upper>1.57</upper>
+          <effort>300</effort>
+          <velocity>3</velocity>
+        </limit>
+        <dynamics>
+          <damping>5</damping>
+          <friction>5</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name="link_6">
+      <pose relative_to="joint_6">0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 0.003085 0 -0 0</pose>
+        <mass>0.00803345</mass>
+        <inertia>
+          <ixx>1.51209e-06</ixx>
+          <ixy>-2.58494e-23</ixy>
+          <ixz>-6.40762e-27</ixz>
+          <iyy>1.65233e-06</iyy>
+          <iyz>-9.67964e-24</iyz>
+          <izz>3.11336e-06</izz>
+        </inertia>
+      </inertial>
+      <collision name="link_6_collision">
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>package://kr16_l6/meshes/visual/link_6.STL</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name="link_6_visual">
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>package://kr16_l6/meshes/visual/link_6.STL</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+  </model>
+</sdf>
