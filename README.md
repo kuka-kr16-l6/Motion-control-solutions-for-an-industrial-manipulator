@@ -221,17 +221,19 @@ In this section, position, velocity, and acceleration for each joint are compute
 ### Point-to-point trajectory
 #### Linear segments with parabolic blends trajectory
 Smooth transitions between joint positions using linear segments and acceleration-limited parabolic blends
-![position, velocity, and acceleration for each joint using LSWB][LSWB]
 
+![position, velocity, and acceleration for each joint using LSWB][LSWB]
+[View code](./high_level_control/trajectory/linearWblends_trajectory.py)
 #### Quintic polynomial trajectory
 Ensures smooth motion with continuous acceleration and jerk profiles for precise joint-level movement.
-![position, velocity, and acceleration for each joint using Quintic polynomial][Quintic polynomial]
 
+![position, velocity, and acceleration for each joint using Quintic polynomial][Quintic polynomial]
+[View code](./high_level_control/trajectory/quinticPoly_traj.py)
 ### Path planning 
 #### Rapidly-exploring random tree RRT
 Sampling-based path planning method visualized in 3D space for collision-free motion.
 ![visualization for RRT in 3D space][RRT]
-
+[View code](./high_level_control/path_planner/RandomRapidlyExploringTrees.py)
 ### Trajectory with via points 
     
 ### Optimization
