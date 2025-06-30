@@ -218,8 +218,8 @@ You can view the implementation in this file:
 ## Trajectory & path planning 
 In this section, position, velocity, and acceleration for each joint are computed using various methods to ensure smooth and collision-free motion
 
-### Point-to-point trajectory
-#### Linear segments with parabolic blends trajectory
+  ### Point-to-point trajectory
+  #### Linear segments with parabolic blends trajectory
 Smooth transitions between joint positions using linear segments and acceleration-limited parabolic blends
 
 ![position, velocity, and acceleration for each joint using LSWB][LSWB]
@@ -227,11 +227,11 @@ Smooth transitions between joint positions using linear segments and acceleratio
 ---
 View implementaion in:
 
-[View code](./high_level_control/trajectory/linearWblends_trajectory.py)
+👉[View code](./high_level_control/trajectory/linearWblends_trajectory.py)
 
 ---
 
-#### Quintic polynomial trajectory
+  #### Quintic polynomial trajectory
 Ensures smooth motion with continuous acceleration and jerk profiles for precise joint-level movement.
 
 ![position, velocity, and acceleration for each joint using Quintic polynomial][Quintic polynomial]
@@ -239,27 +239,23 @@ Ensures smooth motion with continuous acceleration and jerk profiles for precise
 ---
 View implementaion in:
 
-[View code](./high_level_control/trajectory/quinticPoly_traj.py)
+👉[View code](./high_level_control/trajectory/quinticPoly_traj.py)
 
 ---
 
-### Path planning 
-#### Rapidly-exploring random tree RRT
+  ### Path planning 
+  #### Rapidly-exploring random tree RRT
 Sampling-based path planning method visualized in 3D space for collision-free motion.
 ![visualization for RRT in 3D space][RRT]
 
 ---
 View implementaion in:
 
-[View code](./high_level_control/path_planner/RandomRapidlyExploringTrees.py)
+👉[View code](./high_level_control/path_planner/RandomRapidlyExploringTrees.py)
 
 ---
 
-### Trajectory with via points 
-
----
-
-### Optimization
+  ### Trajectory with via points 
 
 ---
 
