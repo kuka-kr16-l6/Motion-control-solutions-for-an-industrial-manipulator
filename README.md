@@ -227,7 +227,7 @@ Smooth transitions between joint positions using linear segments and acceleratio
 ---
 View implementaion in:
 
-👉[View code](./high_level_control/trajectory/linearWblends_trajectory.py)
+👉 [View code](./high_level_control/trajectory/linearWblends_trajectory.py)
 
 ---
 
@@ -239,7 +239,7 @@ Ensures smooth motion with continuous acceleration and jerk profiles for precise
 ---
 View implementaion in:
 
-👉[View code](./high_level_control/trajectory/quinticPoly_traj.py)
+👉 [View code](./high_level_control/trajectory/quinticPoly_traj.py)
 
 ---
 
@@ -251,7 +251,7 @@ Sampling-based path planning method visualized in 3D space for collision-free mo
 ---
 View implementaion in:
 
-👉[View code](./high_level_control/path_planner/RandomRapidlyExploringTrees.py)
+👉 [View code](./high_level_control/path_planner/RandomRapidlyExploringTrees.py)
 
 ---
 
