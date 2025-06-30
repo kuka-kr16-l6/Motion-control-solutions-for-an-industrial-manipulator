@@ -218,17 +218,17 @@ You can view the implementation in this file:
 ## Trajectory & path planning 
 In this section, position, velocity, and acceleration for each joint are computed using various methods to ensure smooth and real-time motion
 
-    ###Point-to-point trajectory
-    ####Linear segments with parabolic blends trajectory
+    ### Point-to-point trajectory
+    #### Linear segments with parabolic blends trajectory
     ![position, velocity, and acceleration for each joint using LSWB][LSWB]
-    ####Quintic polynomial trajectory
+    #### Quintic polynomial trajectory
     ![position, velocity, and acceleration for each joint using Quintic polynomial][Quintic polynomial]
-    ###Path planning 
-    ####RRT
+    ### Path planning 
+    #### RRT
     [visualization for RRT in 3D space][RRT]
-    ###Trajectory with via points 
+    ### Trajectory with via points 
     
-    ###Optimization
+    ### Optimization
     
 ## 5. Simulation
    ### Gazebo Simulation Package
