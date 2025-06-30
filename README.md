@@ -212,10 +212,24 @@ The Jacobian relates joint velocities to the end-effector's linear and angular v
 You can view the implementation in this file:  
 👉 [Jacobian Matrix Implementation](./high_level_control/jacobian/jacobian.py)
 
+[LSWB]: ./images/LSWB.png
+[Quintic polynomial]: ./images/QuinticPolynomial.png
+[RRT]: ./images/RRT.png
+## Trajectory & path planning 
+In this section, position, velocity, and acceleration for each joint are computed using various methods to ensure smooth and real-time motion
 
-## Trajectory
-
-
+    ###Point-to-point trajectory
+    ####Linear segments with parabolic blends trajectory
+    ![position, velocity, and acceleration for each joint using LSWB][LSWB]
+    ####Quintic polynomial trajectory
+    ![position, velocity, and acceleration for each joint using Quintic polynomial][Quintic polynomial]
+    ###Path planning 
+    ####RRT
+    [visualization for RRT in 3D space][RRT]
+    ###Trajectory with via points 
+    
+    ###Optimization
+    
 ## 5. Simulation
    ### Gazebo Simulation Package
    A complete Gazebo simulation environment for the KUKA KR16 L6 is provided. The simulation includes the robot model with proper joint configurations and URDF/Xacro files. It allows for testing and visualization of robot behavior in a virtual environment, aiding in development and validation before deployment on real hardware.
