@@ -224,8 +224,8 @@ Smooth transitions between joint positions using linear segments and acceleratio
 
 ![position, velocity, and acceleration for each joint using LSWB][LSWB]
 
--
-
+--
+View implementaion in:
 [View code](./high_level_control/trajectory/linearWblends_trajectory.py)
 
 ---
@@ -235,8 +235,8 @@ Ensures smooth motion with continuous acceleration and jerk profiles for precise
 
 ![position, velocity, and acceleration for each joint using Quintic polynomial][Quintic polynomial]
 
--
-
+--
+View implementaion in:
 [View code](./high_level_control/trajectory/quinticPoly_traj.py)
 
 ---
@@ -246,8 +246,8 @@ Ensures smooth motion with continuous acceleration and jerk profiles for precise
 Sampling-based path planning method visualized in 3D space for collision-free motion.
 ![visualization for RRT in 3D space][RRT]
 
--
-
+--
+View implementaion in:
 [View code](./high_level_control/path_planner/RandomRapidlyExploringTrees.py)
 
 ---
