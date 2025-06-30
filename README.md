@@ -220,12 +220,18 @@ In this section, position, velocity, and acceleration for each joint are compute
 
 ### Point-to-point trajectory
 #### Linear segments with parabolic blends trajectory
+Smooth transitions between joint positions using linear segments and acceleration-limited parabolic blends
 ![position, velocity, and acceleration for each joint using LSWB][LSWB]
+
 #### Quintic polynomial trajectory
+Ensures smooth motion with continuous acceleration and jerk profiles for precise joint-level movement.
 ![position, velocity, and acceleration for each joint using Quintic polynomial][Quintic polynomial]
+
 ### Path planning 
-#### RRT
+#### Rapidly-exploring random tree RRT
+Sampling-based path planning method visualized in 3D space for collision-free motion.
 ![visualization for RRT in 3D space][RRT]
+
 ### Trajectory with via points 
     
 ### Optimization
