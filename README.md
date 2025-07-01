@@ -8,7 +8,8 @@
 3. [Low Level Control](#3-Low-Level-Control)
 4. [High Level Control](#4-High-Level-Control)
     - [Kinematics](#kinematics)
-    - [Trajectory](#trajectory)
+    - [Path planning](#Path-planning)
+    - [Trajectory](#Trajectory)
 5. [Simulation](#5-simulation)
 6. [About the Team](#6-About-the-Team)
 
@@ -212,11 +213,34 @@ The Jacobian relates joint velocities to the end-effector's linear and angular v
 You can view the implementation in this file:  
 👉 [Jacobian Matrix Implementation](./high_level_control/jacobian/jacobian.py)
 
+---
+
+## Path planning 
+This section compute the points for collision free path 
+
+### Sampling-based path planning
+
+#### Rapidly-exploring random tree RRT
+Sampling-based path planning method visualized in 3D space for collision-free motion.
+![visualization for RRT in 3D space][RRT]
+
+---
+View implementaion in:
+
+👉 [View code](./high_level_control/path_planner/RandomRapidlyExploringTrees.py)
+
+---
+
+### Search-based path planning
+
+---
+
 [LSWB]: ./images/LSWB.png
 [Quintic polynomial]: ./images/QuinticPolynomial.png
 [RRT]: ./images/RRT.png
-## Trajectory & path planning 
-In this section, position, velocity, and acceleration for each joint are computed using various methods to ensure smooth and collision-free motion
+
+## Trajectory  
+In this section, position, velocity, and acceleration for each joint are computed using various methods to ensure smooth motion
 
   ### Point-to-point trajectory
   #### Linear segments with parabolic blends trajectory
@@ -240,18 +264,6 @@ Ensures smooth motion with continuous acceleration and jerk profiles for precise
 View implementaion in:
 
 👉 [View code](./high_level_control/trajectory/quinticPoly_traj.py)
-
----
-
-  ### Path planning 
-  #### Rapidly-exploring random tree RRT
-Sampling-based path planning method visualized in 3D space for collision-free motion.
-![visualization for RRT in 3D space][RRT]
-
----
-View implementaion in:
-
-👉 [View code](./high_level_control/path_planner/RandomRapidlyExploringTrees.py)
 
 ---
 
