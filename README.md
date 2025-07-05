@@ -43,7 +43,7 @@ A SolidWorks assembly model of the KUKA KR16 L6 robotic arm is included. This mo
 ---
 
 ### Electrical
-This PDF document provides comprehensive hardware documentation for the KUKA KR16 L6 robotic arm as used in this project. It includes all critical details needed for replicating or troubleshooting the physical setup of the robot, control panel, and associated electronics.
+This PDF explains all the important details needed to build and connect the robot, control panel, and electronic components.
 [wiring & schematics](./data/wiring&schematics.pdf)
 
 #### Inside the Document
