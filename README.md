@@ -43,6 +43,30 @@ A SolidWorks assembly model of the KUKA KR16 L6 robotic arm is included. This mo
 ---
 
 ### Electrical
+This PDF document provides comprehensive hardware documentation for the KUKA KR16 L6 robotic arm as used in this project. It includes all critical details needed for replicating or troubleshooting the physical setup of the robot, control panel, and associated electronics.
+[wiring & schematics](./data/wiring&schematics.pdf)
+
+#### Inside the Document
+
+- **Motor & Driver Assignments**  
+  Clear mapping of each axis (A1–A6) to its respective motor and driver.
+
+- **Cable Specifications**  
+  Encoder, brake, and servomotor cable types, connectors, part numbers, and manufacturers (e.g., DDK Ltd. CM10 series).
+
+- **Control Panel Layout**  
+  Visual reference for control box wiring, shield grounding, and power distribution.
+
+- **Signal Mapping**  
+  Detailed I/O pinouts for drivers, including input/output signal names and Yaskawa 50-pin to dual DB25 adapter configuration.
+
+- **Custom PCB Schematics**  
+  ESP-based board connections for pulse generation, encoder feedback, RS-485 communication, limit switches, and power rails.
+
+- **Power & Safety Notes**  
+  Includes voltage references, brake activation signals, grounding, and shielding requirements.
+
+  ---
 
 ## 3. Low Level Control
 
