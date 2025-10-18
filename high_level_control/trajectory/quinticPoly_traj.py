@@ -2,17 +2,27 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 class trajectory:
-    def __init__(self, current_theta, target_theta, max_acceleration, max_velocity,time_,time_steps_):
+    def __init__(self, current_theta, target_theta, max_jerk, max_acceleration, max_velocity,time_steps_):
         self.initial_theta = np.array(current_theta)
         self.final_theta = np.array(target_theta)
         self.positions = list(zip(self.initial_theta, self.final_theta))
+        self.max_jerk_ = max_jerk
         self.max_acceleration_ = max_acceleration
         self.max_velocity_ = max_velocity
-        self.time__ = time_
         self.time_steps = time_steps_
         self.flag = True
 
-    def quintic_trajectory_coeffs(self ):
+    def compute_time(self):
+        h = 0
+        for position in self.positions:
+            dis = np.sqrt(position[1]**2-position[0]**2)
+            h = max(dis, h)
+        time_constrained_V = 15*h /8*self.max_velocity_
+        time_constrained_a = np.sqrt(10*np.sqrt(3)*h / 3*self.max_acceleration_)
+        time_constrained_j = np.cbrt(60*h/self.max_jerk_)
+        return max(time_constrained_V,time_constrained_a,time_constrained_j)
+    
+    def quintic_trajectory_coeffs(self , time__):
         coefficient = []
         coefficient_velo = []
         coefficient_acc = []
@@ -26,7 +36,7 @@ class trajectory:
             end_acceleration = 0
 
             start_time = 0
-            end_time = self.time__
+            end_time = time__
 
             equations = np.array([
                 [1, start_time, start_time**2, start_time**3, start_time**4, start_time**5],
@@ -50,8 +60,9 @@ class trajectory:
         return coefficient, coefficient_velo, coefficient_acc
 
 
-    def trajectory_generator(self, coeffs, coeffs_vel, coeffs_acc):
-        time_points = np.linspace(0, self.time__, self.time_steps)
+    
+    def trajectory_generator(self, coeffs, coeffs_vel, coeffs_acc, time__):
+        time_points = np.linspace(0, time__, self.time_steps)
         pos, vel, acc = [], [], []
         max_vels, max_accs = [], []
 
@@ -69,17 +80,15 @@ class trajectory:
         return pos, vel, acc, max(max_vels), max(max_accs)
 
     def Quintic_trajectory(self):
-        while True:
-            coeffs, coeffs_vel, coeffs_acc = self.quintic_trajectory_coeffs()
-            pos, vel, acc, max_vel, max_acc = self.trajectory_generator(coeffs, coeffs_vel, coeffs_acc)
+        time__ = self.compute_time()
+        coeffs, coeffs_vel, coeffs_acc = self.quintic_trajectory_coeffs(time__)
+        pos, vel, acc, max_vel, max_acc = self.trajectory_generator(coeffs, coeffs_vel, coeffs_acc, time__)
 
-            if max_vel > self.max_velocity_ or max_acc > self.max_acceleration_:
-                self.time__ += 0.001  
-            else:
-                print('Final time:', self.time__)
-                print('Max velocity reached:', max_vel)
-                print('Max acceleration reached:', max_acc)
-                return pos, vel, acc
+        print('Final time:', time__)
+        print('Max velocity reached:', max_vel)
+        print('Max acceleration reached:', max_acc)
+        return pos, vel, acc
+
 
 
 
@@ -87,11 +96,11 @@ class trajectory:
 def main ():
     current_theta = np.array([0,0,0,0,0,0])
     final_theta = np.array([1,1,1,1,1,1])
-    time_ = 0.001
     max_velocity = 1500
     max_acceleration = 240000
+    max_jerk = 1000000
     time_steps = 100
-    traj= trajectory(current_theta, final_theta, max_acceleration, max_velocity,time_, time_steps)
+    traj= trajectory(current_theta, final_theta, max_jerk, max_acceleration, max_velocity, time_steps)
     theta_pos, theta_vel, theta_acc = traj.Quintic_trajectory()
 
     
