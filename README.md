@@ -162,8 +162,11 @@ For a complete breakdown of the kinematic model configuration, joint parameters,
 This document supports the implementation and can help you verify or customize the DH model used in the code.
 
 
-You can view the implementation in this file:  
-👉 [Parameters Implementation](./high_level_control/parameters/robot.py)
+You can view the python implementation in this file:  
+👉 [Parameters Implementation](./high_level_control/kinematics/python/parameters/robot.py)
+
+You can view the cpp implementation in this file:  
+👉 [Parameters Implementation](./high_level_control/kinematics/cpp/kinematics/Robot.h)
 
 [//]: # (Image References)
 [dh_diagram]: ./images/dh_parameter.png
@@ -215,8 +218,13 @@ An **analytical geometric solution** is used to compute the joint angles require
 
 ---
 
-You can view the implementation in this file:  
-👉 [Inverse Kinematics Implementation](./high_level_control/inverse_kinematics/ik_solver.py)
+You can view the python implementation in this file:  
+👉 [Inverse Kinematics Implementation](./high_level_control/kinematics/python/inverse_kinematics/ik_solver.py)
+
+------
+
+You can view the cpp implementation in this file:  
+👉 [Inverse Kinematics Implementation](./high_level_control/kinematics/cpp/kinematics/solve_ik.cpp)
 
 ---
 
