@@ -368,6 +368,11 @@ View implementaion in:
 
 ---
 ---
+### Parameter Vector (β)
+
+The parameter vector \( β \) stacks all dynamic parameters appearing in the robot model (e.g., link masses, first moments, and inertia terms) and is defined such that the dynamics are linear in these parameters.  
+The structure and ordering of \( β \) are strictly consistent with the columns of the regressor matrix \( Y \).
+
 👉 [View code](./high_level_control/dynamic_parameter_identification/base_params_beta.py)
 
 ---
