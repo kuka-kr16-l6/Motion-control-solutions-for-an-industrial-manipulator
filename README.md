@@ -302,28 +302,28 @@ The goal is to obtain a minimal and identifiable set of dynamic parameters suita
 
 The symbolic derivation of the dynamic model, regressor matrix, and minimal parameter set is carried out using **SymPyBotics**, a Python toolbox for symbolic robot modeling and dynamics:
 
-https://github.com/cdsousa/SymPyBotics
+[SymPyBotics GitHub](https://github.com/cdsousa/SymPyBotics)
 
 ---
 
 ### Dynamic Model and Regressor Formulation
 
-The rigid-body dynamics of an \( n \)-DOF robot manipulator can be written as:
+The rigid-body dynamics of an $n$-DOF robot manipulator can be written as:
 
-\[
-\tau(q, dot{q}, ddot{q}) = M(q)ddot{q} + C(q,dot{q})dot{q} + g(q)
-\]
+$$
+\tau(q, \dot{q}, \ddot{q}) = M(q)\ddot{q} + C(q, \dot{q})\dot{q} + g(q)
+$$
 
 This nonlinear dynamic model can be rewritten in a **linear form with respect to the parameters**:
 
-\[
-\tau = Y(q,dot{q},ddot{q}) \, beta
-\]
+$$
+\tau = Y(q, \dot{q}, \ddot{q}) \beta
+$$
 
 where:
-- \( Y(q,dot{q},ddot{q}) \) is the **regressor matrix**
-- \( beta \) is the vector of **dynamic parameters**
-- \( q, dot{q}, ddot{q} \) are joint position, velocity, and acceleration vectors
+- $Y(q, \dot{q}, \ddot{q})$ is the **regressor matrix**
+- $\beta$ is the vector of **dynamic parameters**
+- $q, \dot{q}, \ddot{q}$ are joint position, velocity, and acceleration vectors
 
 All nonlinearities in the dynamics are captured by the regressor matrix, while the unknown physical parameters appear linearly in the parameter vector.
 
@@ -333,11 +333,11 @@ All nonlinearities in the dynamics are captured by the regressor matrix, while t
 
 The regressor function computes the matrix:
 
-\[
-Y = f(q, dot{q}, ddot{q})
-\]
+$$
+Y = f(q, \dot{q}, \ddot{q})
+$$
 
-Each row of \( Y \) corresponds to one joint torque equation, and each column corresponds to a physical parameter or a combination of parameters, such as:
+Each row of $Y$ corresponds to one joint torque equation, and each column corresponds to a physical parameter or a combination of parameters, such as:
 - Link masses  
 - Center of mass locations  
 - Inertia tensor components  
@@ -345,11 +345,9 @@ Each row of \( Y \) corresponds to one joint torque equation, and each column co
 
 This formulation enables the use of **linear least squares–based identification methods**, since the dynamic model is linear with respect to the unknown parameters.
 
-However, the full regressor matrix generally contains **linearly dependent columns**, meaning that **not all parameters are independently identifiable**.
- These dependencies arise from the structure of rigid-body dynamics and the chosen parameterization. As a result, multiple parameter vectors may produce identical joint torques.
+However, the full regressor matrix generally contains **linearly dependent columns**, meaning that **not all parameters are independently identifiable**. These dependencies arise from the structure of rigid-body dynamics and the chosen parameterization. As a result, multiple parameter vectors may produce identical joint torques.
 
-To address this issue, the regressor can be reduced to a **minimum (base) regressor**, which contains only linearly independent parameter combinations.
- The corresponding **base parameter vector** represents the smallest set of parameters that fully describes the robot dynamics.
+To address this issue, the regressor can be reduced to a **minimum (base) regressor**, which contains only linearly independent parameter combinations. The corresponding **base parameter vector** represents the smallest set of parameters that fully describes the robot dynamics.
 
 The reduction to minimum parameters follows the methodology introduced by **Wisama Khalil**, where systematic techniques are used to:
 - Detect linear dependencies in the regressor matrix  
@@ -358,20 +356,20 @@ The reduction to minimum parameters follows the methodology introduced by **Wisa
 
 This minimum-parameter formulation improves numerical conditioning, ensures physical consistency, and is essential for reliable parameter identification, especially when working with experimental data.
 
-The referenced Khalil research paper included in this repository provides the theoretical foundation and practical procedure for minimizing the parameter set used in the regressor-based identification framework.
-[identification-of-the-minimum-inertial-parameters-of-robots](./data/identification-of-the-minimum-inertial-parameters-of-robots.pdf)
+The referenced Khalil research paper included in this repository provides the theoretical foundation and practical procedure for minimizing the parameter set used in the regressor-based identification framework:  
+[Identification of the minimum inertial parameters of robots](./data/identification-of-the-minimum-inertial-parameters-of-robots.pdf)
 
 ---
-View implementaion in:
+View implementation in:
 
 👉 [View code](./high_level_control/dynamic_parameter_identification/regressor_base.py)
 
 ---
----
-### Parameter Vector (β)
 
-The parameter vector \( β \) stacks all dynamic parameters appearing in the robot model (e.g., link masses, first moments, and inertia terms) and is defined such that the dynamics are linear in these parameters.  
-The structure and ordering of \( β \) are strictly consistent with the columns of the regressor matrix \( Y \).
+### Parameter Vector ($\beta$)
+
+The parameter vector $\beta$ stacks all dynamic parameters appearing in the robot model (e.g., link masses, first moments, and inertia terms) and is defined such that the dynamics are linear in these parameters.  
+The structure and ordering of $\beta$ are strictly consistent with the columns of the regressor matrix $Y$.
 
 👉 [View code](./high_level_control/dynamic_parameter_identification/base_params_beta.py)
 
