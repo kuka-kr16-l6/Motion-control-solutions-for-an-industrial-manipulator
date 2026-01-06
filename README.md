@@ -10,6 +10,7 @@
     - [Kinematics](#kinematics)
     - [Path planning](#Path-planning)
     - [Trajectory](#Trajectory)
+    - [Dynamic Parameter Identification](#parameter-identification)
 5. [Simulation](#5-simulation)
 6. [About the Team](#6-About-the-Team)
 
@@ -296,8 +297,12 @@ View implementaion in:
 ---
 ## Parameter Identification
 
-This section describes the formulation and implementation of **parameter identification for robot dynamics** using a **linear-in-parameters regressor representation**.
- The goal is to obtain a minimal and identifiable set of dynamic parameters suitable for modeling, control, and simulation.
+This section describes the formulation and implementation of **parameter identification for robot dynamics** using a **linear-in-parameters regressor representation**.  
+The goal is to obtain a minimal and identifiable set of dynamic parameters suitable for modeling, control, and simulation.
+
+The symbolic derivation of the dynamic model, regressor matrix, and minimal parameter set is carried out using **SymPyBotics**, a Python toolbox for symbolic robot modeling and dynamics:
+
+https://github.com/cdsousa/SymPyBotics
 
 ---
 
@@ -306,19 +311,19 @@ This section describes the formulation and implementation of **parameter identif
 The rigid-body dynamics of an \( n \)-DOF robot manipulator can be written as:
 
 \[
-\tau(q, \dot{q}, \ddot{q}) = M(q)\ddot{q} + C(q,\dot{q})\dot{q} + g(q)
+\tau(q, dot{q}, ddot{q}) = M(q)ddot{q} + C(q,dot{q})dot{q} + g(q)
 \]
 
 This nonlinear dynamic model can be rewritten in a **linear form with respect to the parameters**:
 
 \[
-\tau = Y(q,\dot{q},\ddot{q}) \, \beta
+\tau = Y(q,dot{q},ddot{q}) \, beta
 \]
 
 where:
-- \( Y(q,\dot{q},\ddot{q}) \) is the **regressor matrix**
-- \( \beta \) is the vector of **dynamic parameters**
-- \( q, \dot{q}, \ddot{q} \) are joint position, velocity, and acceleration vectors
+- \( Y(q,dot{q},ddot{q}) \) is the **regressor matrix**
+- \( beta \) is the vector of **dynamic parameters**
+- \( q, dot{q}, ddot{q} \) are joint position, velocity, and acceleration vectors
 
 All nonlinearities in the dynamics are captured by the regressor matrix, while the unknown physical parameters appear linearly in the parameter vector.
 
