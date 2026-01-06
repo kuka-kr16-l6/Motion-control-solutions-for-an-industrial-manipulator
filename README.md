@@ -310,15 +310,15 @@ The symbolic derivation of the dynamic model, regressor matrix, and minimal para
 
 The rigid-body dynamics of an $n$-DOF robot manipulator can be written as:
 
-$
+$$
 \tau(q, \dot{q}, \ddot{q}) = M(q)\ddot{q} + C(q, \dot{q})\dot{q} + g(q)
-$
+$$
 
 This nonlinear dynamic model can be rewritten in a **linear form with respect to the parameters**:
 
-$
+$$
 \tau = Y(q, \dot{q}, \ddot{q}) \beta
-$
+$$
 
 where:
 - $Y(q, \dot{q}, \ddot{q})$ is the **regressor matrix**
@@ -333,9 +333,9 @@ All nonlinearities in the dynamics are captured by the regressor matrix, while t
 
 The regressor function computes the matrix:
 
-$
+$$
 Y = f(q, \dot{q}, \ddot{q})
-$
+$$
 
 Each row of $Y$ corresponds to one joint torque equation, and each column corresponds to a physical parameter or a combination of parameters, such as:
 - Link masses  
