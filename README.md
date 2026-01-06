@@ -334,7 +334,7 @@ All nonlinearities in the dynamics are captured by the regressor matrix, while t
 The regressor function computes the matrix:
 
 \[
-Y = f(q, \dot{q}, \ddot{q})
+Y = f(q, dot{q}, ddot{q})
 \]
 
 Each row of \( Y \) corresponds to one joint torque equation, and each column corresponds to a physical parameter or a combination of parameters, such as:
@@ -365,6 +365,9 @@ The referenced Khalil research paper included in this repository provides the th
 View implementaion in:
 
 👉 [View code](./high_level_control/dynamic_parameter_identification/regressor_base.py)
+
+---
+---
 👉 [View code](./high_level_control/dynamic_parameter_identification/base_params_beta.py)
 
 ---
