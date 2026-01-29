@@ -1,0 +1,32 @@
+# STM32CubeIDE build folders
+/Debug/
+/Release/
+/*.elf
+/*.map
+/*.bin
+/*.hex
+/*.axf
+/*.o
+/makefile
+/objects.list
+/objects.mk
+/sources.mk
+
+# STM32CubeIDE metadata
+/.project
+/.cproject
+/.settings/
+/*.launch
+
+# STM32CubeMX backup files
+*.ioc.bak
+
+# Temporary files
+*~
+*.swp
+*.bak
+*.tmp
+
+# OS files
+.DS_Store
+Thumbs.db
