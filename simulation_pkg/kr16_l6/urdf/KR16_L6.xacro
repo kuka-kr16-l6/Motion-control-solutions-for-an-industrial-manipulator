@@ -1,0 +1,447 @@
+<?xml version="1.0"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.6.0-4-g7f85cfe  Build Version: 1.6.7995.38578
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+
+
+<robot
+  name="KR16_L6" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  
+  <material name="Orange">
+      <color rgba="1 0.498039215686275 0 1" />
+  </material>
+
+  <material name="Black">
+      <color rgba="0 0.2 0.2 1" />
+  </material>
+
+  <link name="base_footprint"/>
+  <link
+    name="base_link">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="74.2934066480815"/>
+        <inertia
+          ixx="1.7670441021068"
+          ixy="0.0322864027833848"
+          ixz="-0.0124316820163097"
+          iyy="2.14812775689737"
+          iyz="-0.000118351466869728"
+          izz="2.27331694976714" />
+      </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://kr16_l6/meshes/visual/base_link.STL" />
+      </geometry>
+      <material
+        name="Black">
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://kr16_l6/meshes/visual/base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="fixed_base_joint" type="fixed">
+    <parent link="base_footprint"/>
+    <child link="base_link"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <link
+    name="link_1">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="21.6539975606358"/>
+        <inertia
+          ixx="0.409776844897082"
+          ixy="0.0305560931237029"
+          ixz="-0.224923596404671"
+          iyy="0.68302608239356"
+          iyz="0.0194477729138504"
+          izz="0.558909205843078" />
+      </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://kr16_l6/meshes/visual/link_1.STL" />
+      </geometry>
+      <material
+        name="Orange">
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://kr16_l6/meshes/visual/link_1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint_1"
+    type="revolute">
+    <origin
+      xyz="0 0 0.396923498637839"
+      rpy="0 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="link_1" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="3.228859"
+      upper="-3.228859"
+      effort="0"
+      velocity="3" />
+    <dynamics
+      damping="60.0"
+      friction="5000" />
+  </joint>
+  <link
+    name="link_2">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="13.5187549094038"/>
+        <inertia
+          ixx="0.595735874292518"
+          ixy="-0.000339592089060112"
+          ixz="0.000241341250717348"
+          iyy="0.0592222368371793"
+          iyz="-0.0264042602214632"
+          izz="0.593909797905065" />
+      </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://kr16_l6/meshes/visual/link_2.STL" />
+      </geometry>
+      <material
+        name="Orange">
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://kr16_l6/meshes/visual/link_2.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint_2"
+    type="revolute">
+    <origin
+      xyz="0.244033738805369 -0.0872187074176751 0.283450970657737"
+      rpy="1.5707963267949 0 0" />
+    <parent
+      link="link_1" />
+    <child
+      link="link_2" />
+    <axis
+      xyz="0 0 -1" />
+    <limit
+      lower="2.18166"
+      upper="-1.1344"
+      effort="0"
+      velocity="3" />
+    <dynamics
+      damping="500"
+      friction="9000" />
+  </joint>
+  <link
+    name="link_3">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="20.1226848736683"/>
+        <inertia
+          ixx="0.076052889275269"
+          ixy="0.0306219787461247"
+          ixz="-0.0339439600119559"
+          iyy="1.08899760672633"
+          iyz="0.00467363324796757"
+          izz="1.09970632098879" />
+        </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://kr16_l6/meshes/visual/link_3.STL" />
+      </geometry>
+      <material
+        name="Orange">
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://kr16_l6/meshes/visual/link_3.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint_3"
+    type="revolute">
+    <origin
+      xyz="-0.000395982805339701 0.674625530704424 0.034"
+      rpy="0 0 3.14159265358979" />
+    <parent
+      link="link_2" />
+    <child
+      link="link_3" />
+    <axis
+      xyz="0 0 -1" />
+    <limit
+      lower="1.117"
+      upper="-3.8397"
+      effort="0"
+      velocity="3" />
+    <dynamics
+      damping="90"
+      friction="90000" />
+  </joint>
+  <link
+    name="link_4">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="2.89358095084321"/>
+        <inertia
+          ixx="0.0215071544602456"
+          ixy="1.48066908872164E-06"
+          ixz="0.00134422869806709"
+          iyy="0.0235662420074606"
+          iyz="-6.71215199795677E-06"
+          izz="0.00667070814447064" />
+        </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://kr16_l6/meshes/visual/link_4.STL" />
+      </geometry>
+      <material
+        name="Orange">
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://kr16_l6/meshes/visual/link_4.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint_4"
+    type="revolute">
+    <origin
+      xyz="-0.702 0.035 -0.117"
+      rpy="3.14159265358979 1.5707963267949 0" />
+    <parent
+      link="link_3" />
+    <child
+      link="link_4" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-6.1086"
+      upper="6.1086"
+      effort="300"
+      velocity="3" />
+    <dynamics
+      damping="0.5"
+      friction="500" />
+  </joint>
+  <link
+    name="link_5">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.808099153279393"/>
+        <inertia
+          ixx="0.000760250254168187"
+          ixy="-1.15601666786092E-11"
+          ixz="0.000203502588831681"
+          iyy="0.00178549408930983"
+          iyz="1.64520814626315E-11"
+          izz="0.00176861762533441" />
+        </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://kr16_l6/meshes/visual/link_5.STL" />
+      </geometry>
+      <material
+        name="Orange">
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://kr16_l6/meshes/visual/link_5.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint_5"
+    type="revolute">
+    <origin
+      xyz="0.053 0 0.268"
+      rpy="3.14159265358979 1.5707963267949 0" />
+    <parent
+      link="link_4" />
+    <child
+      link="link_5" />
+    <axis
+      xyz="0 0 -1" />
+    <limit
+      lower="-2.268"
+      upper="2.268"
+      effort="300"
+      velocity="3" />
+    <dynamics
+      damping="0.5"
+      friction="500" />
+  </joint>
+  <link
+    name="link_6">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.008033452510818"/>
+        <inertia
+          ixx="1.51208716593763E-06"
+          ixy="-2.58493941422821E-23"
+          ixz="-6.40761759710922E-27"
+          iyy="1.65232786199386E-06"
+          iyz="-9.67964361080383E-24"
+          izz="3.11335648098606E-06" />
+        </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://kr16_l6/meshes/visual/link_6.STL" />
+      </geometry>
+      <material
+        name="Black">
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://kr16_l6/meshes/visual/link_6.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint_6"
+    type="revolute">
+    <origin
+      xyz="-0.1088 0 0.053"
+      rpy="3.14159265358979 1.5707963267949 0" />
+    <parent
+      link="link_5" />
+    <child
+      link="link_6" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-6.1086"
+      upper="6.1086"
+      effort="300"
+      velocity="3" />
+    <dynamics
+      damping="0.5"
+      friction="500" />
+  </joint>
+
+  <gazebo reference="base_link">
+      <material>Gazebo/Black</material>
+  </gazebo>
+  <gazebo reference="link_1">
+      <material>Gazebo/Orange</material>
+  </gazebo>
+  <gazebo reference="link_2">
+      <material>Gazebo/Orange</material>
+  </gazebo>
+  <gazebo reference="link_3">
+      <material>Gazebo/Orange</material>
+  </gazebo>
+  <gazebo reference="link_4">
+      <material>Gazebo/Orange</material>
+  </gazebo>
+  <gazebo reference="link_5">
+      <material>Gazebo/Orange</material>
+  </gazebo>
+  <gazebo reference="link_6">
+      <material>Gazebo/Orange</material>
+  </gazebo>
+
+
+    <gazebo>
+      <plugin name="joint_state_publisher_controller"
+              filename="libgazebo_ros_joint_state_publisher.so">
+          <!-- Update rate in Hertz -->
+          <update_rate>60</update_rate>
+          <!-- Name of joints in the model whose states will be published. -->
+          <joint_name>base_footprint</joint_name>
+          <joint_name>joint_1</joint_name>
+          <joint_name>joint_2</joint_name>
+          <joint_name>joint_3</joint_name>
+          <joint_name>joint_4</joint_name>
+          <joint_name>joint_5</joint_name>
+          <joint_name>joint_6</joint_name>
+      </plugin>
+  </gazebo>
+
+  <gazebo>
+      <plugin name="joint_pose_trajectory_controller"
+              filename="libgazebo_ros_joint_pose_trajectory.so">
+          <!-- Update rate in Hz -->
+          <update_rate>60</update_rate>
+      </plugin>
+  </gazebo>
+
+
+</robot>
