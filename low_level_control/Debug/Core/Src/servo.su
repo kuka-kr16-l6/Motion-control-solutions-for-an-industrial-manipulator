@@ -1,0 +1,4 @@
+../Core/Src/servo.c:10:6:Servo_Init	24	static
+../Core/Src/servo.c:28:13:Servo_SetFrequency	32	static
+../Core/Src/servo.c:53:6:Servo_Move	24	static
+../Core/Src/servo.c:92:6:Servo_TIM2_IRQHandler	16	static
