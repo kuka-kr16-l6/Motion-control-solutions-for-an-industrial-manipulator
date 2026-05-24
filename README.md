@@ -394,15 +394,24 @@ We use a **Finite Fourier Series** to generate this periodic trajectory. By defi
 For each joint $j$, the trajectory is parameterized by a fundamental frequency $\omega_f$, the number of harmonics $N_f$, an initial position offset $q_{0,j}$, and coefficient vectors $a_j$ and $b_j$:
 
 **Joint Velocity:**
-$$\dot{q}_j(t) = \sum_{l=1}^{N_f} \left( a_{l,j} \cos(\omega_f l t) + b_{l,j} \sin(\omega_f l t) \right)$$
+
+$$
+\dot{q}_j(t) = \sum_{l=1}^{N_f} \left( a_{l,j} \cos(\omega_f l t) + b_{l,j} \sin(\omega_f l t) \right)
+$$
 
 **Joint Position:**
-$$q_j(t) = q_{0,j} + \sum_{l=1}^{N_f} \left( \frac{a_{l,j}}{\omega_f l} \sin(\omega_f l t) - \frac{b_{l,j}}{\omega_f l} \cos(\omega_f l t) \right)$$
+
+$$
+q_j(t) = q_{0,j} + \sum_{l=1}^{N_f} \left( \frac{a_{l,j}}{\omega_f l} \sin(\omega_f l t) - \frac{b_{l,j}}{\omega_f l} \cos(\omega_f l t) \right)
+$$
 
 **Joint Acceleration:**
-$$\ddot{q}_j(t) = \sum_{l=1}^{N_f} \left( -a_{l,j} \omega_f l \sin(\omega_f l t) + b_{l,j} \omega_f l \cos(\omega_f l t) \right)$$
-This ensures that $q$, $\dot{q}$, and $\ddot{q}$ are strictly continuous, making it ideal for experimental data collection.
 
+$$
+\ddot{q}_j(t) = \sum_{l=1}^{N_f} \left( -a_{l,j} \omega_f l \sin(\omega_f l t) + b_{l,j} \omega_f l \cos(\omega_f l t) \right)
+$$
+
+This ensures that $q$, $\dot{q}$, and $\ddot{q}$ are strictly continuous, making it ideal for experimental data collection.
 ---
 View implementation in:
 
