@@ -170,6 +170,9 @@ You can view the cpp implementation in this file:
 
 [//]: # (Image References)
 [dh_diagram]: ./images/dh_parameter.png
+[Optimized_trajectory]: ./images/optimized_trajectory.png
+[PSO_BEFORE]: ./images/pso_1.png
+[PSO_AFTER]: ./images/pso_2.png
 
 ### Denavit-Hartenberg Diagram
 
@@ -380,6 +383,73 @@ The parameter vector $\beta$ stacks all dynamic parameters appearing in the robo
 The structure and ordering of $\beta$ are strictly consistent with the columns of the regressor matrix $Y$.
 
 👉 [View code](./high_level_control/dynamic_parameter_identification/base_params_beta.py)
+
+---
+### Excitation Trajectory Generation
+
+To accurately estimate the dynamic parameters (base parameter vector $\beta$), the robot must execute an **excitation trajectory**. This trajectory must persistently excite all the dynamics of the KUKA KR16 L6 across its workspace while remaining continuous and smooth to prevent mechanical damage.
+
+We use a **Finite Fourier Series** to generate this periodic trajectory. By defining the Fourier series at the velocity level $\dot{q}(t)$ and deriving position $q(t)$ and acceleration $\ddot{q}(t)$ through integration and differentiation, we naturally prevent velocity drift.
+
+For each joint $j$, the trajectory is parameterized by a fundamental frequency $\omega_f$, the number of harmonics $N_f$, an initial position offset $q_{0,j}$, and coefficient vectors $a_j$ and $b_j$:
+
+**Joint Velocity:**
+$$
+\dot{q}_j(t) = \sum_{l=1}^{N_f} \left( a_{l,j} \cos(\omega_f l t) + b_{l,j} \sin(\omega_f l t) \right)
+$$
+
+**Joint Position:**
+$$
+q_j(t) = q_{0,j} + \sum_{l=1}^{N_f} \left( \frac{a_{l,j}}{\omega_f l} \sin(\omega_f l t) - \frac{b_{l,j}}{\omega_f l} \cos(\omega_f l t) \right)
+$$
+
+**Joint Acceleration:**
+$$
+\ddot{q}_j(t) = \sum_{l=1}^{N_f} \left( -a_{l,j} \omega_f l \sin(\omega_f l t) + b_{l,j} \omega_f l \cos(\omega_f l t) \right)
+$$
+
+This ensures that $q$, $\dot{q}$, and $\ddot{q}$ are strictly continuous, making it ideal for experimental data collection.
+
+---
+View implementation in:
+
+👉 [View code](./high_level_control/dynamic_parameter_identification/excitation_trajectory.py)
+
+---
+### Trajectory Optimization via PSO
+
+Generating a random Fourier series is not sufficient for parameter identification. If the trajectory does not adequately excite specific joints, the resulting regressor matrix $Y$ will be ill-conditioned, making the least-squares estimation highly sensitive to sensor noise.
+
+To solve this, we optimize the Fourier coefficients to minimize the **Condition Number** $\kappa$ of the base regressor matrix $Y_B$. A lower condition number ensures maximum robustness against measurement noise in the torque and position sensors.
+
+#### What is Particle Swarm Optimization (PSO)?
+Since minimizing the condition number is a highly non-linear, non-convex optimization problem, we utilize **Particle Swarm Optimization (PSO)**. 
+
+PSO is a computational algorithm inspired by the flocking behavior of birds. Instead of a single point systematically searching the space, a "swarm" of particles (potential solutions) is initialized randomly. Each particle explores the space and adjusts its position based on three factors:
+1. **Inertia:** Its resistance to changing its current direction.
+2. **Cognitive Pull:** Its memory of the best solution it has personally found ($p_{best}$).
+3. **Social Pull:** Its communication with the swarm to move toward the absolute best solution found by anyone ($g_{best}$).
+
+![PSO Convergence][PSO_BEFORE]
+![PSO Convergence][PSO_AFTER]
+
+**Optimization Problem Setup:**
+* **Decision Variables ($x$):** The swarm optimizes a flat vector containing the parameters for all 6 joints. For each joint, the parameters are $[a_1 ... a_{N_f}, b_1 ... b_{N_f}, q_0]$.
+* **Objective Function:** Minimize $J = \text{cond}(Y_B(x)) = \| Y_B \| \cdot \| Y_B^\dagger \|$
+* **Constraints (Penalty Functions):**
+  During the PSO search, any particle (trajectory) that exceeds the KUKA KR16 L6's physical limits is heavily penalized:
+  * $|q_j(t)| \le q_{max, j}$ (Position Limits)
+  * $|\dot{q}_j(t)| \le \dot{q}_{max, j}$ (Velocity Limits)
+  * $|\ddot{q}_j(t)| \le \ddot{q}_{max, j}$ (Acceleration Limits)
+
+![Optimized Joint Trajectories][Optimized_trajectory]
+
+By decoding the PSO output back into the `FourierJoint` objects, we extract the optimal, physically safe excitation trajectory that guarantees the best possible parameter identification for the robot.
+
+---
+View implementation in:
+
+👉 [View code](./high_level_control/dynamic_parameter_identification/pso.py)
 
 ---
 
