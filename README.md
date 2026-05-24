@@ -442,11 +442,23 @@ PSO is a computational algorithm inspired by the flocking behavior of birds. Ins
 * **Constraints (Penalty Functions):**
   During the PSO search, any particle (trajectory) that exceeds the KUKA KR16 L6's physical limits is heavily penalized:
 
-  **Position Limits:** $|q_j(t)| \leq q_{\max,j}$
+**Position Limits:**
 
-  **Velocity Limits:** $|\dot{q}_j(t)| \leq \dot{q}_{\max,j}$
+$$
+|q_j(t)| \le q_{max, j}
+$$
 
-  **Acceleration Limits:** $|\ddot{q}_j(t)| \leq \ddot{q}_{\max,j}$
+**Velocity Limits:**
+
+$$
+|\dot{q}_j(t)| \le \dot{q}_{max, j}
+$$
+
+**Acceleration Limits:**
+
+$$
+|\ddot{q}_j(t)| \le \ddot{q}_{max, j}
+$$
   
 ![Optimized Joint Trajectories][Optimized_trajectory]
 
