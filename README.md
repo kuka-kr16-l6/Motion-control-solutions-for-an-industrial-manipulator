@@ -405,7 +405,7 @@ $$
 
 **Joint Acceleration:**
 $$
-\ddot{q}_j(t) = \sum_{l=1}^{N_f} \left( -a_{l,j} \omega_f l \sin(\omega_f l t) + b_{l,j} \omega_f l \cos(\omega_f l t) \right)
+$\ddot{q}_j(t)$ = $\sum_{l=1}^{N_f} \left( -a_{l,j} \omega_f l \sin(\omega_f l t) + b_{l,j} \omega_f l \cos(\omega_f l t) \right)$
 $$
 
 This ensures that $q$, $\dot{q}$, and $\ddot{q}$ are strictly continuous, making it ideal for experimental data collection.
