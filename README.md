@@ -439,10 +439,17 @@ PSO is a computational algorithm inspired by the flocking behavior of birds. Ins
 * **Decision Variables ($x$):** The swarm optimizes a flat vector containing the parameters for all 6 joints. For each joint, the parameters are $[a_1 ... a_{N_f}, b_1 ... b_{N_f}, q_0]$.
 * **Objective Function:** Minimize $J = \text{cond}(Y_B(x)) = \| Y_B \| \cdot \| Y_B^\dagger \|$
 * **Constraints (Penalty Functions):**
+* **Constraints (Penalty Functions):**
   During the PSO search, any particle (trajectory) that exceeds the KUKA KR16 L6's physical limits is heavily penalized:
-  * $|q_j(t)| \le q_{max, j}$ (Position Limits)
-  * $|\dot{q}_j(t)| \le \dot{q}_{max, j}$ (Velocity Limits)
-  * $|\ddot{q}_j(t)| \le \ddot{q}_{max, j}$ (Acceleration Limits)
+
+  **Position Limits:**
+  $$|q_j(t)| \le q_{max, j}$$
+
+  **Velocity Limits:**
+  $$|\dot{q}_j(t)| \le \dot{q}_{max, j}$$
+
+  **Acceleration Limits:**
+  $$|\ddot{q}_j(t)| \le \ddot{q}_{max, j}$$
 
 ![Optimized Joint Trajectories][Optimized_trajectory]
 
