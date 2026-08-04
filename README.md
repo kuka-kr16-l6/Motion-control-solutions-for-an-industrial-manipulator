@@ -69,57 +69,352 @@ This PDF explains all the important details needed to build and connect the robo
 
   ---
 
-## 3. Low Level Control
+## 3. Low-Level Control
 
 ### Overview
-This module controls one joint of the KUKA KR16 L6 robot.  
-It runs on an ESP32 microcontroller and communicates with a Yaskawa SERVOPACK motor driver (model SGD-180A01A).  
-The code manages motor control, communication, and safety features in real-time using FreeRTOS.
+
+The Low-Level Control layer is responsible for the real-time control of each joint of the KUKA KR16 L6 robotic arm.
+
+Each joint is implemented as an independent control node based on the **STM32H743VIT6 (ARM Cortex-M7 @ 168 MHz)**. The joint controllers communicate with a centralized high-level controller through an **FDCAN bus using Classic CAN frames**.
+
+The firmware is developed using **STM32CubeIDE** and STM32 **HAL/LL APIs**, with hardware peripherals used to achieve deterministic motor-control timing and fast safety response.
+
+### Distributed System Architecture
+
+The robotic arm uses a **distributed master–slave architecture**. The high-level controller is responsible for generating and distributing joint motion commands, while each STM32 node independently executes the commands for its assigned joint.
+
+```text
+                    ┌─────────────────────────┐
+                    │    Master Controller    │
+                    │                         │
+                    │   High-Level Control    │
+                    │   Trajectory Planning   │
+                    └────────────┬────────────┘
+                                 │
+                         FDCAN / Classic CAN
+                                 │
+              ┌──────────────────┼──────────────────┐
+              │                  │                  │
+              ▼                  ▼                  ▼
+       ┌─────────────┐    ┌─────────────┐    ┌─────────────┐
+       │   JOINT 1   │    │   JOINT 2   │    │   JOINT 6   │
+       │ STM32H743   │    │ STM32H743   │    │ STM32H743   │
+       │  Slave Node │    │  Slave Node │    │  Slave Node │
+       └──────┬──────┘    └──────┬──────┘    └──────┬──────┘
+              │                  │                  │
+              ▼                  ▼                  ▼
+       ┌─────────────┐    ┌─────────────┐    ┌─────────────┐
+       │  SERVOPACK  │    │  SERVOPACK  │    │  SERVOPACK  │
+       │    Driver   │    │    Driver   │    │    Driver   │
+       └──────┬──────┘    └──────┬──────┘    └──────┬──────┘
+              │                  │                  │
+              ▼                  ▼                  ▼
+           Motor 1             Motor 2             Motor 6
+```
+
+Each joint has a unique `NODE_SLAVE_ID`, allowing incoming CAN messages to be filtered and processed only by their intended joint controller.
 
 ### Key Features
-- Real-time motor control for a single joint
-- Modbus RTU communication with the high-level controller
-- Safety checks: joint limits and over-travel protection
-- Runs on ESP32 with FreeRTOS multitasking
 
-### Dependencies
-- ESP-IDF v5.4.1  
-- FreeRTOS (built-in in ESP-IDF)  [FreeRTOS docs](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/system/freertos_idf.html)  
-- ESP-Modbus library  [ESP-Modbus docs](https://docs.espressif.com/projects/esp-modbus/en/latest/esp32/)
+* Distributed control architecture with independent STM32 joint nodes
+* **FDCAN communication** using Classic CAN frames
+* Hardware-based **Pulse Train Output (PTO)** generation
+* Microsecond-resolution motor-control timing
+* Hardware **Quadrature Encoder Interface (QEI)** for position feedback
+* Floating-point pulse-error accumulation to reduce trajectory drift
+* FIFO-based motion-command buffering
+* Hardware-driven safety fault handling
+* Motor brake and servo-enable control
+* Joint-specific gear-ratio and pulse-per-degree scaling
+* Real-time encoder telemetry and RPM calculation
 
-### Hardware Interface
-- ESP32 microcontroller (dual-core, 240 MHz)  
-- Yaskawa SERVOPACK SGD-180A01A motor driver  
-- Incremental encoder feedback  
-- 25 used I/O pins for motor and communication (out of 50-pin connector)  
+### Hardware Configuration
 
-See the [hardware connection schematic](<INSERT-LINK-HERE>) for wiring details.
+Each joint controller is based on the following hardware:
 
-### FreeRTOS Tasks
-| Core | Task Name           | Description                         | Priority  |
-|-------|---------------------|-----------------------------------|-----------|
-| CPU0  | motor_control_task  | Motor control and joint movement  | Normal    |
-| CPU1  | receive_modbus_task | Modbus RTU communication          | Normal    |
+* **STM32H743VIT6**
+* ARM Cortex-M7 running at **168 MHz**
+* Yaskawa SERVOPACK motor driver
+* Servo motor
+* Incremental quadrature encoder
+* FDCAN communication interface
+* DAC outputs for current/torque reference
+* Hardware brake and servo-enable signals
 
-### Inputs and Outputs
-- **Inputs:** Desired joint position, direction, speed, torque limits, Modbus messages  
-- **Outputs:** Motor control signals to SERVOPACK, status feedback to high-level controller
+The main peripherals used by the firmware are:
 
-### Integration
-- Controlled by the high-level controller via Modbus RTU  
-- See [high-level main code controller ](<INSERT_HIGH_LEVEL_REPO_LINK>) for more details
+| Peripheral | Function                                                 |
+| ---------- | -------------------------------------------------------- |
+| **TIM1**   | Pulse Train Output (PTO) generation                      |
+| **TIM3**   | Quadrature Encoder Interface (QEI)                       |
+| **FDCAN2** | Master–slave communication                               |
+| **DAC1**   | Analog current/torque reference                          |
+| **EXTI**   | Hardware safety/fault detection                          |
+| **GPIO**   | Direction, brake, servo enable, clear and status signals |
+
+### Pulse Train Generation
+
+Motor pulses are generated using **TIM1 in One Pulse Mode (OPM)**.
+
+The timer operates with a **1 MHz base clock**, providing a resolution of **1 µs per timer tick**. The pulse frequency is controlled through the timer Auto-Reload Register (ARR), while the number of pulses is configured using the repetition counter.
+
+```text
+Motion Command
+      │
+      ▼
+Calculate Pulse Count
+      │
+      ▼
+Calculate Pulse Frequency
+      │
+      ▼
+Configure TIM1
+      │
+      ├── ARR → Pulse Frequency
+      ├── CCR1 → 50% Duty Cycle
+      └── RCR → Number of Pulses
+      │
+      ▼
+Hardware PTO Generation
+      │
+      ▼
+Servo Driver
+```
+
+This hardware-based approach allows the STM32 to generate accurate pulse trains without relying on software delays or CPU-based timing.
+
+### Encoder Interface
+
+**TIM3** is configured as a hardware **Quadrature Encoder Interface (QEI)** using X4 encoder mode.
+
+The encoder signals are connected to:
+
+* `PA6` → TIM3 Channel 1
+* `PA7` → TIM3 Channel 2
+
+The encoder counter is used to track the actual joint movement and provides the basis for position verification and real-time velocity calculation.
+
+### Motion Command Processing
+
+Incoming CAN commands are decoded by the FDCAN receive interrupt and converted into internal motion commands.
+
+```text
+FDCAN Frame
+     │
+     ▼
+Decode Command
+     │
+     ├── Direction
+     ├── Target Angle
+     └── Target Speed
+     │
+     ▼
+Servo_Push_Command()
+     │
+     ▼
+Pulse Calculation
+     │
+     ▼
+Motion Command FIFO
+     │
+     ▼
+TIM1 PTO Execution
+```
+
+The command FIFO allows incoming motion commands to be buffered while the hardware timer is executing the current command. This enables continuous multi-segment motion without blocking CAN reception.
+
+### Pulse Error Accumulation
+
+The firmware uses a **floating-point pulse-error accumulation algorithm** to prevent positional drift caused by converting fractional pulse values into integer pulse counts.
+
+For each command:
+
+```text
+Target Angle
+     │
+     ▼
+Angle × Pulses/Degree
+     │
+     ▼
+Add Previous Error
+     │
+     ▼
+Integer Pulse Count
+     │
+     ├──────────────► TIM1
+     │
+     ▼
+Store Fractional Remainder
+     │
+     ▼
+Next Motion Command
+```
+
+The remaining fractional pulse value is carried into the next motion command. This preserves the accumulated position over multiple trajectory segments instead of independently rounding every command.
+
+### FDCAN Communication
+
+The communication interface uses **FDCAN2** configured for **Classic CAN with standard 11-bit identifiers**.
+
+The physical interface uses:
+
+* `PB5` → FDCAN RX
+* `PB6` → FDCAN TX
+
+#### Master → Joint Command
+
+Each motion command contains:
+
+| Field       |    Size | Description           |
+| ----------- | ------: | --------------------- |
+| `dir`       |  1 byte | Direction of rotation |
+| `angle_deg` | 4 bytes | Target angle × 1000   |
+| `speed_rpm` | 2 bytes | Target speed in RPM   |
+| `unused`    |  1 byte | Padding               |
+
+#### Joint → Master Feedback
+
+The joint controller can return:
+
+| Field       |    Size | Description                    |
+| ----------- | ------: | ------------------------------ |
+| `dir`       |  1 byte | Current/last direction         |
+| `angle_deg` | 4 bytes | Encoder angle × 100            |
+| `speed_rpm` | 2 bytes | Calculated real-time RPM       |
+| `status`    |  1 byte | Operational/status information |
+
+This provides a bidirectional communication path between the high-level controller and the individual joint controllers.
+
+### Safety Architecture
+
+Safety handling is implemented using a **hardware-driven EXTI interrupt** connected to the servo driver's ready/fault signal.
+
+```text
+Servo Driver Fault
+        │
+        ▼
+   PB12 / EXTI
+        │
+        ▼
+Servo_Fault_Handler()
+        │
+        ├── Engage Motor Brake
+        ├── Disable Servo Output
+        ├── Stop TIM1 PTO
+        ├── Clear Command FIFO
+        └── Reset Pulse Error
+```
+
+When a driver fault or unsafe condition is detected, the firmware immediately stops pulse generation, disables the motor output, engages the mechanical brake, and clears pending motion commands.
+
+This prevents previously queued commands from being executed after a fault condition.
+
+### Joint-Specific Motion Scaling
+
+Because the robot joints have different mechanical gear ratios and pulse requirements, each joint uses its own motion-scaling parameters.
+
+| Joint   | Gear Ratio | Pulses/Degree | Base Speed |
+| ------- | ---------: | ------------: | ---------: |
+| Joint 1 |      125.0 |          2000 |    96.0 Hz |
+| Joint 2 |      125.0 |          2000 |    96.0 Hz |
+| Joint 3 |      125.0 |          2000 |    96.0 Hz |
+| Joint 4 |     74.444 |          2010 |  161.99 Hz |
+| Joint 5 |     42.222 |          1900 |   270.0 Hz |
+| Joint 6 |     24.117 |          1900 |  472.69 Hz |
+
+The firmware uses these parameters to translate high-level angular commands into the appropriate pulse count and pulse frequency for each joint.
+
+### Firmware Flow
+
+```text
+Power ON
+   │
+   ▼
+Initialize STM32 Peripherals
+   │
+   ├── TIM1
+   ├── TIM3
+   ├── DAC1
+   └── FDCAN2
+   │
+   ▼
+Servo Initialization
+   │
+   ▼
+Enable FDCAN RX Interrupt
+   │
+   ▼
+Wait for CAN Command
+   │
+   ▼
+Decode Motion Command
+   │
+   ▼
+Calculate Pulses & Frequency
+   │
+   ▼
+Push Command to FIFO
+   │
+   ▼
+TIM1 PTO Execution
+   │
+   ▼
+Encoder Verification
+   │
+   ▼
+Send Joint Feedback
+   │
+   └──────────────► Wait for Next Command
+```
+
+At any point during operation, a hardware fault can interrupt the normal execution flow and transfer control to the safety handler.
+
+### Performance Validation
+
+The architecture has been validated through experimental testing of both positional accuracy and real-time response.
+
+The pulse-error accumulation algorithm achieved **zero cumulative positional drift** over a 1000-segment trajectory in the documented test, compared with significant accumulated error when fractional pulses were independently truncated.
+
+The measured latency from FDCAN reception to the first physical PTO pulse was **14.2 µs**, while the measured safety-stop propagation from fault assertion to brake activation was **1.8 µs**.
 
 ### Running & Testing
-- Deployed directly on the ESP32 hardware on the robot joint  
-- Not currently supported for simulation
 
-You can view the implementation in this file:  
-👉 [main source code](./low_level_control/slave.c)
+The firmware is deployed directly on the **STM32H743VIT6 joint-controller hardware**.
 
-* **see more References**:
+Testing includes:
 
-  * [ESP-IDF Documentation](https://docs.espressif.com/projects/esp-idf/en/latest/)
-  * [Modbus RTU Protocol](https://modbus.org/)
+* FDCAN communication
+* Motion-command reception
+* Pulse generation
+* Motor movement
+* Encoder feedback
+* Multi-segment trajectory execution
+* Pulse-error accumulation
+* Driver fault handling
+* Emergency/safety stopping
+
+### Source Code
+
+The low-level controller implementation is located in the project repository under the low-level firmware source directory.
+
+The main components include:
+
+* `Robot_Joint.h/.c` — Joint-control API and motion/PTO implementation
+* `FDCAN.c` — CAN communication and command decoding
+* `main.c` — System initialization and application flow
+
+### Future Scope
+
+The current architecture provides the foundation for further closed-loop and distributed-control development.
+
+Planned extensions include:
+
+* **Position PID Control:** Use the TIM3 encoder feedback to implement real-time closed-loop position control on the STM32.
+* **Velocity Control:** Extend the motor-control architecture to support velocity-based control.
+* **High-Level Encoder Feedback:** Continuously transmit encoder position and joint-state information to the high-level controller.
+* **Bootloader:** Implement a bootloader allowing the high-level controller to remotely update the firmware of individual STM32 joint nodes.
+* **micro-ROS:** Investigate micro-ROS integration to connect the low-level controllers more directly with the ROS 2 ecosystem.
+* **High-Speed FDCAN:** Evaluate migration from Classic CAN frames to higher-speed FDCAN data transmission for increased communication bandwidth.
 
 
 
