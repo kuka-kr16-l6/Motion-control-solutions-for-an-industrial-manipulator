@@ -1,0 +1,15 @@
+../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_ll_bus.h:1384:22:LL_AHB4_GRP1_EnableClock	1
+../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_ll_bus.h:1862:22:LL_APB1_GRP1_EnableClock	1
+../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_ll_tim.h:1714:22:LL_TIM_DisableARRPreload	1
+../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_ll_tim.h:2919:22:LL_TIM_IC_SetActiveInput	9
+../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_ll_tim.h:2969:22:LL_TIM_IC_SetPrescaler	9
+../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_ll_tim.h:3032:22:LL_TIM_IC_SetFilter	9
+../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_ll_tim.h:3098:22:LL_TIM_IC_SetPolarity	9
+../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_ll_tim.h:3319:22:LL_TIM_SetEncoderMode	1
+../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_ll_tim.h:3348:22:LL_TIM_SetTriggerOutput	1
+../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_ll_tim.h:3457:22:LL_TIM_DisableMasterSlaveMode	1
+../Core/Src/tim.c:30:6:MX_TIM1_Init	8
+../Core/Src/tim.c:109:6:MX_TIM3_Init	1
+../Core/Src/tim.c:162:6:HAL_TIM_Base_MspInit	2
+../Core/Src/tim.c:181:6:HAL_TIM_MspPostInit	2
+../Core/Src/tim.c:209:6:HAL_TIM_Base_MspDeInit	2

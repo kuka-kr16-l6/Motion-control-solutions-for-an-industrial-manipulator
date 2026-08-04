@@ -7,7 +7,7 @@
   ******************************************************************************
   * @attention
   *
-  * Copyright (c) 2025 STMicroelectronics.
+  * Copyright (c) 2026 STMicroelectronics.
   * All rights reserved.
   *
   * This software is licensed under terms that can be found in the LICENSE file
@@ -27,7 +27,20 @@ extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm32f4xx_hal.h"
+#include "stm32h7xx_hal.h"
+
+#include "stm32h7xx_ll_rcc.h"
+#include "stm32h7xx_ll_crs.h"
+#include "stm32h7xx_ll_bus.h"
+#include "stm32h7xx_ll_system.h"
+#include "stm32h7xx_ll_exti.h"
+#include "stm32h7xx_ll_cortex.h"
+#include "stm32h7xx_ll_utils.h"
+#include "stm32h7xx_ll_pwr.h"
+#include "stm32h7xx_ll_dma.h"
+#include "stm32h7xx_ll_tim.h"
+#include "stm32h7xx_ll_gpio.h"
+#include "stm32h7xx_ll_hsem.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -49,8 +62,6 @@ extern "C" {
 
 /* USER CODE END EM */
 
-void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
-
 /* Exported functions prototypes ---------------------------------------------*/
 void Error_Handler(void);
 
@@ -59,16 +70,35 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define LED_Pin GPIO_PIN_13
-#define LED_GPIO_Port GPIOC
-#define DIR_Pin GPIO_PIN_2
-#define DIR_GPIO_Port GPIOC
-#define SPI_CS_Pin GPIO_PIN_4
-#define SPI_CS_GPIO_Port GPIOA
-#define servo_on_Pin GPIO_PIN_6
-#define servo_on_GPIO_Port GPIOB
+#define brake_Pin LL_GPIO_PIN_2
+#define brake_GPIO_Port GPIOE
+#define relay_Pin LL_GPIO_PIN_3
+#define relay_GPIO_Port GPIOE
+#define clear_Pin LL_GPIO_PIN_0
+#define clear_GPIO_Port GPIOA
+#define dir_Pin LL_GPIO_PIN_1
+#define dir_GPIO_Port GPIOA
+#define ServoReady_Pin LL_GPIO_PIN_12
+#define ServoReady_GPIO_Port GPIOB
+#define ServoReady_EXTI_IRQn EXTI15_10_IRQn
+#define servo_on_Pin LL_GPIO_PIN_15
+#define servo_on_GPIO_Port GPIOD
+#define led1_Pin LL_GPIO_PIN_10
+#define led1_GPIO_Port GPIOA
 
 /* USER CODE BEGIN Private defines */
+
+#define JOINT_1			1
+#define JOINT_2			2
+#define JOINT_3			3
+#define JOINT_4			4
+#define JOINT_5			5
+#define JOINT_6			6
+
+
+#define NODE_SLAVE_ID	JOINT_5
+
+
 
 /* USER CODE END Private defines */
 
