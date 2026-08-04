@@ -402,21 +402,22 @@ The main components include:
 * `Robot_Joint.h/.c` — Joint-control API and motion/PTO implementation
 * `FDCAN.c` — CAN communication and command decoding
 * `main.c` — System initialization and application flow
-
+  
 ### Future Scope
-
-The current architecture provides the foundation for further closed-loop and distributed-control development.
 
 Planned extensions include:
 
-* **Position PID Control:** Use the TIM3 encoder feedback to implement real-time closed-loop position control on the STM32.
-* **Velocity Control:** Extend the motor-control architecture to support velocity-based control.
-* **High-Level Encoder Feedback:** Continuously transmit encoder position and joint-state information to the high-level controller.
-* **Bootloader:** Implement a bootloader allowing the high-level controller to remotely update the firmware of individual STM32 joint nodes.
-* **micro-ROS:** Investigate micro-ROS integration to connect the low-level controllers more directly with the ROS 2 ecosystem.
-* **High-Speed FDCAN:** Evaluate migration from Classic CAN frames to higher-speed FDCAN data transmission for increased communication bandwidth.
+* **Closed-Loop Position Control:** Implement a real-time PID position controller on the STM32 using TIM3 encoder feedback to improve joint positioning accuracy.
 
+* **Velocity Control:** Extend the motor-control architecture to support velocity-based control using encoder feedback.
 
+* **Encoder Feedback:** Transmit real-time encoder position and joint-state information from the STM32 controllers to the Raspberry Pi 5 for monitoring and high-level control.
+
+* **CAN-Based Firmware Update Bootloader:** Develop a bootloader that uses the existing CAN bus to transfer firmware images from the Raspberry Pi 5 to individual STM32 joint controllers, enabling remote firmware updates without physical programming access.
+
+* **micro-ROS Integration:** Investigate micro-ROS integration to connect the STM32 low-level controllers with the ROS 2 ecosystem running on the Raspberry Pi 5.
+
+* **High-Speed FDCAN:** Evaluate the use of higher-speed FDCAN data transmission to increase communication bandwidth and support faster exchange of joint commands and feedback.
 
 ## 4. High Level Control
 
