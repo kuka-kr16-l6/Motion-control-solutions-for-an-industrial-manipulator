@@ -444,6 +444,21 @@ The developed firmware successfully demonstrates a highly stable, precise, and r
 *   Designed a robust FDCAN communication interface with hardware message filtering.
 *   Developed a sub-2 microsecond hardware-driven safety fault state machine.
 
-### Future Scope:
-*   **Dual-Loop Control Integration:** Utilizing the configured TIM3 encoder mode to execute real-time closed-loop Proportional-Integral-Derivative (PID) positional tuning, compensating for motor backlash.
-*   **FDCAN High Bitrate Upgrade:** Transitioning from Classic CAN mode to high-speed FDCAN data-bitrate switching ($5\text{ Mbps}$) to double the coordinate update frequency of the arm.
+### Future Scope
+
+The following improvements are planned as future extensions of the robotic arm control system:
+
+1. **Bootloader-Based Firmware Update**
+   Develop a bootloader that enables the Raspberry Pi 5 to remotely upload and update the firmware of the STM32 joint controllers without requiring manual programming.
+
+2. **micro-ROS Integration**
+   Integrate **micro-ROS** into the STM32 firmware to enable direct communication with the ROS 2 system running on the Raspberry Pi 5, improving integration between the low-level controllers and the high-level robotic software.
+
+3. **Velocity Control and Position PID**
+   Extend the current control system to support **velocity control** and implement a **PID position controller** on the STM32. The controller will use encoder feedback to calculate the position error and adjust the motor velocity accordingly.
+
+4. **Encoder Feedback to the High-Level Controller**
+   Send real-time **encoder position and joint-state data** from the STM32 controllers to the Raspberry Pi 5. This will allow the high-level controller to monitor the actual position of each joint.
+
+5. **Closed-Loop Motion Control**
+   Combine **high-level trajectory commands, encoder feedback, and firmware-based PID control** to achieve a fully closed-loop motion-control system with improved positioning accuracy and reliability.
