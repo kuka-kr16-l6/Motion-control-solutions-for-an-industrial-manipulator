@@ -1,0 +1,14 @@
+[project]
+name = "UntitledProject1"
+
+[tool.pyside6-project]
+files = [
+    "main.py",
+    "autogen/settings.py",
+    "can_interface.py",
+    "quintic_traj.py",
+    "../UntitledProject1Content/App.qml",
+    "../UntitledProject1Content/Screen01.ui.qml",
+    "../UntitledProject1/main.qml",
+    "../UntitledProject1/Kuka_mainscreen.qml.ui.qml",
+]
