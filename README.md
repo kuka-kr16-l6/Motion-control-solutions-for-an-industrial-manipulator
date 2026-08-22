@@ -780,8 +780,6 @@ A **Qt / QML desktop application** for jogging and controlling the KUKA KR16 L6 
 
 The UI displays a live 3D model of the manipulator (imported from CAD via Qt Quick 3D) alongside joint- and cartesian-space jog controls, so an operator can move the arm either joint-by-joint or by driving the end-effector's X/Y/Z/roll/pitch/yaw directly.
 
-Repository: [GUI-for-KUKA-6-DoF-manipulator](https://github.com/Moataz-Refaat/GUI-for-KUKA-6-DoF-manipulator)
-
 ### Features
 
 - **Interactive 3D visualization** — the six links (`A1`–`A6`) and base of the manipulator are rendered as a Qt Quick 3D scene, imported from `.glb` CAD models, and pose is updated live as the arm moves.
@@ -851,8 +849,6 @@ Repository: [GUI-for-KUKA-6-DoF-manipulator](https://github.com/Moataz-Refaat/GU
 ### Getting started
 
 ```bash
-# Clone the repository
-git clone https://github.com/Moataz-Refaat/GUI-for-KUKA-6-DoF-manipulator.git
 cd GUI-for-KUKA-6-DoF-manipulator/Python
 
 # Install dependencies
