@@ -8,7 +8,7 @@ This repository contains the full design of a **custom motion controller for an 
 
 The system has four layers:
 
-- **Hardware:** a control cabinet with six servo drives, and one STM32-based controller board per joint (APC-H7).
+- **Hardware:** a control cabinet with six servo drives, and one STM32-based controller board per joint.
 - **Low-level control:** firmware on each board that generates the pulse signals for the servo drive, reads the encoder, and handles faults and brakes. The boards receive commands from the master over a CAN bus.
 - **High-level control:** kinematics, path planning, trajectory generation and dynamic parameter identification.
 - **GUI and simulation:** a desktop app for jogging the robot with a live 3D view, and a ROS 2 / Gazebo simulation for testing without hardware.
@@ -51,11 +51,6 @@ A SolidWorks assembly model of the KUKA KR16 L6 robotic arm is included. This mo
 
 All power electronics are mounted in one wall-mounted cabinet. It holds the six servo drives, the custom joint controller boards, the power supplies and the circuit protection. The electrical design was drawn in **EPLAN**, and the project files are in [Control cabinet](./hardware/control_cabinet/)
 .
-
-<p align="center">
-  <img src="hardware/control_cabinet/panel.HEIC" width="600" alt="Control cabinet interior">
-</p>
-
 The cabinet is arranged in three rows, from top to bottom:
 
 | Row | Contents |
