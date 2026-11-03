@@ -21,7 +21,7 @@ The project is open source, so you can use it as a reference for robotics resear
 1. [Hardware](#1-Hardware)
     - [Mechanical](#mechanical)
     - [Control cabinet](#control-cabinet)
-    - [PCB Board](#joint-controller-board)
+    - [PCB Board](#pcb-board)
 2. [Low Level Control](#2-Low-Level-Control)
 3. [High Level Control](#3-High-Level-Control)
     - [Kinematics](#kinematics)
@@ -63,7 +63,7 @@ The cabinet is arranged in three rows, from top to bottom:
 
 ---
 
-### Joint Controller Board
+### PCB Board
 
 Each of the six joints has its own identical controller board, built around an **STM32H743** microcontroller. A board receives motion commands over **CAN**, generates the pulse/direction signals for its Yaskawa servo drive, reads the joint encoder, and handles the drive's fault, enable and brake signals.
 
