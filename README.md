@@ -49,13 +49,17 @@ A SolidWorks assembly model of the KUKA KR16 L6 robotic arm is included. This mo
 
 ### Control Cabinet
 
-All power electronics are mounted in one wall-mounted cabinet. It holds the six servo drives, the custom joint controller boards, the power supplies and the circuit protection. The electrical design was drawn in **EPLAN**, and the project files are in [Control cabinet](./hardware/control_cabinet/)
-.
+All power electronics are mounted in one wall-mounted cabinet. It holds the six servo drives, the custom joint controller boards, the power supplies and the circuit protection. The electrical design was drawn in **EPLAN**, and the project files are in [Control cabinet](./hardware/control_cabinet/).
+
+<p align="center">
+  <img src="hardware/control_cabinet/panel.jpg" width="700" alt="KUKA KR16 L6 robot">
+</p>
+
 The cabinet is arranged in three rows, from top to bottom:
 
 | Row | Contents |
 |---|---|
-| **Top** | A switch-mode power supply with a cooling fan (left). The black **controller enclosure** (center), which holds the six APC-H7 joint boards. Its six DB-25 connectors, one per axis, go to the drives by cable, and it also has a DB-9 connector. A compact DC power module with terminal blocks (right). |
+| **Top** | A switch-mode power supply with a cooling fan (left). The black **controller enclosure** (center), which holds the six APC-H7 joint boards. Its six DB-37 connectors, one per axis, go to the drives by cable, and it also has a DB-9 connector. A compact DC power module with terminal blocks (right). |
 | **Middle** | The six **servo drives**: three beige **Yaskawa SERVOPACK** drives (200 V class) and three black **SZGH servo** drives with a built-in display. Orange tags mark the cables for each axis. |
 | **Bottom** | **Power distribution and protection**: two red relay modules, a DIN-rail DC supply, a **Schneider TeSys** contactor, terminal blocks, and a row of three-pole **circuit breakers**. |
 
@@ -71,7 +75,7 @@ Each of the six joints has its own identical controller board, built around an *
   <img src="hardware/pcb/pcb_board.jpeg" width="600" alt="APC-H7 joint controller board">
 </p>
 
-*Assembled board.* The microcontroller is in the center. The DB-25 connector at the top goes to the servo drive. The 10-pin header at the bottom carries CAN, RS-485, power and ground between boards. The bottom-right connectors are for limit switches, and the blue trimmers adjust the analog reference. The lower-left corner holds the power stage (buck regulator and 3.3 V regulator).
+*Assembled board.* The microcontroller is in the center. The DB-37 connector at the top goes to the servo drive. The 10-pin header at the bottom carries CAN, RS-485, power and ground between boards. The bottom-right connectors are for limit switches, and the blue trimmers adjust the analog reference. The lower-left corner holds the power stage (buck regulator and 3.3 V regulator).
 
 <p align="center">
   <img src="hardware/pcb/pcb_collection.jpeg" width="600" alt="Six joint boards mounted in a row">
@@ -97,7 +101,7 @@ Each of the six joints has its own identical controller board, built around an *
   Visual reference for control box wiring, shield grounding, and power distribution.
 
 - **Signal Mapping**  
-  Detailed I/O pinouts for drivers, including input/output signal names and Yaskawa 50-pin to dual DB25 adapter configuration.
+  Detailed I/O pinouts for drivers, including input/output signal names and Yaskawa 50-pin to dual DB37 adapter configuration.
 
 - **Custom PCB Schematics**  
   STM32-based board connections for pulse generation, encoder feedback, CAN communication, limit switches, and power rails.
