@@ -1,42 +1,45 @@
-# KUKA KR16 L6 Control
+# KUKA KR16 L6 Motion Control
+
+<p align="center">
+  <img src="images/gui.jpeg" width="700" alt="KUKA KR16 L6 robot">
+</p>
+
+This repository contains the full design of a **custom motion controller for an industrial robot arm**. The mechanical body is a KUKA KR16 L6 with six rotating joints. We replaced its original controller with our own electronics and software, covering everything from the circuit boards to the user interface.
+
+The system has four layers:
+
+- **Hardware:** a control cabinet with six servo drives, and one STM32-based controller board per joint (APC-H7).
+- **Low-level control:** firmware on each board that generates the pulse signals for the servo drive, reads the encoder, and handles faults and brakes. The boards receive commands from the master over a CAN bus.
+- **High-level control:** kinematics, path planning, trajectory generation and dynamic parameter identification.
+- **GUI and simulation:** a desktop app for jogging the robot with a live 3D view, and a ROS 2 / Gazebo simulation for testing without hardware.
+
+The project is open source, so you can use it as a reference for robotics research, control-systems teaching, or building a similar controller.
+
+> This project is not affiliated with KUKA. The robot has dangerous moving parts and the cabinet contains mains voltage, so read the safety notes before testing.
 
 ## Table of content
-1. [Introduction](#1-Introduction)
-2. [Hardware](#2-Hardware)
+1. [Hardware](#1-Hardware)
     - [Mechanical](#mechanical)
-    - [Electrical](#electrical)
-3. [Low Level Control](#3-Low-Level-Control)
-4. [High Level Control](#4-High-Level-Control)
+    - [Control cabinet](#control-cabinet)
+    - [PCB Board](#joint-controller-board)
+2. [Low Level Control](#2-Low-Level-Control)
+3. [High Level Control](#3-High-Level-Control)
     - [Kinematics](#kinematics)
     - [Path planning](#Path-planning)
     - [Trajectory](#Trajectory)
     - [Dynamic Parameter Identification](#parameter-identification)
-5. [GUI](#5-gui)
-6. [Simulation](#6-simulation)
-7. [About the Team](#7-About-the-Team)
-
-## 1. Introduction
+4. [GUI](#4-gui)
+5. [Simulation](#5-simulation)
+6. [About the Team](#6-About-the-Team)
 
 
-This repository documents the development of both low-level and high-level control systems for the KUKA KR16 L6 industrial robotic arm. The objective is to integrate embedded hardware with advanced robotic motion planning, offering a comprehensive platform for real-time motor control, communication protocols, kinematic modeling, and trajectory planning.
+## 1. Hardware
 
-Whether you're working on robotics research, industrial automation, or control systems education, this repository serves as a modular, scalable, and open starting point for working with 6-DOF industrial arms.
+The hardware of this project has three parts: the **robot's mechanical body**, a **custom controller** made of six joint boards, and the **control cabinet** with the servo drives and power electronics. The mechanical body is a KUKA KR16 L6 arm. We replaced its original controller with our own electronics, so each joint is driven by its own STM32-based board that sends pulse and direction signals to a servo drive, reads the encoder, and handles the drive's fault and brake signals. The boards communicate with the master controller over a shared CAN bus.
 
-The project is designed to provide hands-on experience in:
+This section covers each part in turn: the mechanical model and datasheets, the electrical wiring, the joint controller board (APC-H7), and the control cabinet designed in EPLAN.
 
-- Low-level interfacing with industrial servo drives using microcontrollers and real-time operating systems (FreeRTOS)
-
-- High-level motion control algorithms including forward/inverse kinematics and Jacobian computation
-
-- Industrial communication via Modbus RTU over RS-485
-
-- Practical implementation of control theory in a real robotic system
-
----
-
-## 2. Hardware
-A detailed PDF datasheet for the KUKA KR16 L6 robotic arm is included. It contains comprehensive technical specifications, including joint limits, reach, payload, accuracy, weight, and power requirements. This document serves as a reference for modeling, simulation, and control design.
-[kr16_l6_datasheet](./data/MA_KR_6_16_en.pdf)
+> This project is not affiliated with or endorsed by KUKA. "KUKA" is used only to name the robot model. The robot and cabinet contain dangerous voltages and moving parts, so please read the safety notes before building or testing anything.
 
 ### Mechanical
 A SolidWorks assembly model of the KUKA KR16 L6 robotic arm is included. This model provides an accurate representation of the robot’s external structure, suitable for visualization, workspace analysis, and physical integration planning. Please note that the model does not include internal mechanical or electrical components.
@@ -44,9 +47,48 @@ A SolidWorks assembly model of the KUKA KR16 L6 robotic arm is included. This mo
 
 ---
 
-### Electrical
-This PDF explains all the important details needed to build and connect the robot, control panel, and electronic components.
-[wiring & schematics](./data/wiring&schematics.pdf)
+### Control Cabinet
+
+All power electronics are mounted in one wall-mounted cabinet. It holds the six servo drives, the custom joint controller boards, the power supplies and the circuit protection. The electrical design was drawn in **EPLAN**, and the project files are in [Control cabinet](./hardware/control_cabinet/)
+.
+
+<p align="center">
+  <img src="hardware/control_cabinet/panel.HEIC" width="600" alt="Control cabinet interior">
+</p>
+
+The cabinet is arranged in three rows, from top to bottom:
+
+| Row | Contents |
+|---|---|
+| **Top** | A switch-mode power supply with a cooling fan (left). The black **controller enclosure** (center), which holds the six APC-H7 joint boards. Its six DB-25 connectors, one per axis, go to the drives by cable, and it also has a DB-9 connector. A compact DC power module with terminal blocks (right). |
+| **Middle** | The six **servo drives**: three beige **Yaskawa SERVOPACK** drives (200 V class) and three black **SZGH servo** drives with a built-in display. Orange tags mark the cables for each axis. |
+| **Bottom** | **Power distribution and protection**: two red relay modules, a DIN-rail DC supply, a **Schneider TeSys** contactor, terminal blocks, and a row of three-pole **circuit breakers**. |
+
+> ⚠️ **Safety:** The cabinet contains mains voltage. Only qualified people should work inside it. The Yaskawa drives keep dangerous voltage after power-off, so wait until the **CHARGE** lamp on each drive is off before touching anything. Always keep the emergency stop within reach during tests.
+
+---
+
+### Joint Controller Board
+
+Each of the six joints has its own identical controller board, built around an **STM32H743** microcontroller. A board receives motion commands over **CAN**, generates the pulse/direction signals for its Yaskawa servo drive, reads the joint encoder, and handles the drive's fault, enable and brake signals.
+
+<p align="center">
+  <img src="hardware/pcb/pcb_board.jpeg" width="600" alt="APC-H7 joint controller board">
+</p>
+
+*Assembled board.* The microcontroller is in the center. The DB-25 connector at the top goes to the servo drive. The 10-pin header at the bottom carries CAN, RS-485, power and ground between boards. The bottom-right connectors are for limit switches, and the blue trimmers adjust the analog reference. The lower-left corner holds the power stage (buck regulator and 3.3 V regulator).
+
+<p align="center">
+  <img src="hardware/pcb/pcb_collection.jpeg" width="600" alt="Six joint boards mounted in a row">
+</p>
+
+*Mounted set.* The six joint boards are mounted in a row on a base plate and daisy-chained with ribbon cables, so a single cable carries the bus and power to every board. The seventh board at the front handles power distribution and filtering.
+
+<p align="center">
+  <img src="hardware/pcb/top_layer.png" width="600" alt="PCB layout">
+</p>
+
+*PCB layout.* Red is the top copper layer and blue is the bottom layer, with ground pours on both. The bus connector is on the bottom edge, with pins labelled RS-A/B, GND, 12 V and CAN-H/L.
 
 #### Inside the Document
 
@@ -63,14 +105,14 @@ This PDF explains all the important details needed to build and connect the robo
   Detailed I/O pinouts for drivers, including input/output signal names and Yaskawa 50-pin to dual DB25 adapter configuration.
 
 - **Custom PCB Schematics**  
-  ESP-based board connections for pulse generation, encoder feedback, RS-485 communication, limit switches, and power rails.
+  STM32-based board connections for pulse generation, encoder feedback, CAN communication, limit switches, and power rails.
 
 - **Power & Safety Notes**  
   Includes voltage references, brake activation signals, grounding, and shielding requirements.
 
   ---
 
-## 3. Low-Level Control
+## 2. Low-Level Control
 
 ### Overview
 
@@ -420,7 +462,7 @@ Planned extensions include:
 
 * **High-Speed FDCAN:** Evaluate the use of higher-speed FDCAN data transmission to increase communication bandwidth and support faster exchange of joint commands and feedback.
 
-## 4. High Level Control
+## 3. High Level Control
 
 ## Kinematics
 - [Forward Kinematics](#denavit-hartenberg-diagram)
@@ -769,7 +811,7 @@ View implementation in:
 
 ---
 
-## 5. GUI
+## 4. GUI
 
 
 A **Qt / QML desktop application** for jogging and controlling the KUKA KR16 L6 arm, with a Python (PySide6) backend that computes forward/inverse kinematics and quintic trajectories and streams motion commands to the robot over a **CAN bus**.
@@ -859,7 +901,7 @@ python main.py
 ```
 ---
 
-## 6. Simulation
+## 5. Simulation
    ### Gazebo Simulation Package
    A complete Gazebo simulation environment for the KUKA KR16 L6 is provided. The simulation includes the robot model with proper joint configurations and URDF/Xacro files. It allows for testing and visualization of robot behavior in a virtual environment, aiding in development and validation before deployment on real hardware.
    For more details:
@@ -871,7 +913,7 @@ python main.py
    For more details:
    [kr16_l6_control](./simulation_pkg/kr16_l6_control/)
 
-## 7. About the Team
+## 6. About the Team
 
 We are a team of **Mechatronics and Robotics Engineering students** working on this project under the guidance of our academic supervisors.
 

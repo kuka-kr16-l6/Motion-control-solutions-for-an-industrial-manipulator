@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<CtrlParam xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Schemes/NGCtrlUser.xsd">
+   <Version Label="2">
+		<Info Version="KUKA V8.3"/>
+		<Schema Version="1"/>
+	</Version>
+	<!-- VMV -->
+	<!-- Master & Slave -->
+	<GlobalParameter Name="VMVActive" Type="VMV" Index="0" MinValue="0.0" MaxValue="1.0"
+		 EvalBoundary="MinMax" Access="rwv" Value="0.0"/>
+	<GlobalParameter Name="VMVMasterChannel" Type="VMV" Index="1" MinValue="0.0" MaxValue="0.0"
+		 EvalBoundary="Min" Access="rwv" Value="0.0"/>
+	<GlobalParameter Name="VMVMasterX0" Type="VMV" Index="2" MinValue="0.0" MaxValue="0.0"
+		 EvalBoundary="Off" Access="rwv" Value="0.0"/>
+	<GlobalParameter Name="VMVMasterX1" Type="VMV" Index="3" MinValue="0.0" MaxValue="0.0"
+		 EvalBoundary="Off" Access="rwv" Value="0.0"/>
+	<!-- Master -->
+	<!-- Zeit [s] fuer die positionsgeregelte Fahrt auf DeltaX -->
+	<GlobalParameter Name="VMVMasterDeltaT" Type="VMV" Index="100" MinValue="0.01" MaxValue="300.0"
+		 EvalBoundary="MinMax" Access="rwv" Value="1.0"/>
+	<!-- Faktor fuer Verfahrweg der positionsgeregelten Fahrt zum Bauteil. 0.3 bedeutet 0.3xVektorlaenge -->
+	<GlobalParameter Name="VMVMasterDeltaX" Type="VMV" Index="101" MinValue="0.0" MaxValue="1.0"
+		 EvalBoundary="MinMax" Access="rwv" Value="0.5"/>
+	<!-- Faktor fuer Fehlermeldung beim Verlassen des Arbeitsbereichs. 0.5 bedeutet, dass der Vektor maximal um die Haelfte der Vektorlaenge nach oben und unten verlassen werden darf (5mm). -->
+	<GlobalParameter Name="VMVMasterHyst" Type="VMV" Index="102" MinValue="0.01" MaxValue="2.0"
+		 EvalBoundary="MinMax" Access="rwv" Value="1.0"/>
+	<!-- Anfangsgrenze mit negativem Vorzeichen fuer die Erkennung von "Ziehen" mittels Drehzahlschleppfehler. Wird linear zur Endgrenze ueberfuehrt. -->
+	<GlobalParameter Name="VMVMasterVelLagThresholdBegin" Type="VMV" Index="103" MinValue="0.0" MaxValue="0.0"
+		 EvalBoundary="Max" Access="rwv" Value="-50.0"/>
+	<!-- Grenze am Ende der aktiven Phase fuer die "Ziehen" Erkennung. Im Normalfall ist diese Grenze ein weniger negativer Wert als die Anfangsgrenze, da Schwingungen normalerweise abklingen. -->
+	<GlobalParameter Name="VMVMasterVelLagThresholdEnd" Type="VMV" Index="104" MinValue="0.0" MaxValue="0.0"
+		 EvalBoundary="Off" Access="rwv" Value="-20.0"/>
+	<!-- Geschwindigkeit fuer Rueckfahrt in Vektor (Vektorlaenge=10mm) pro Sekunde -->
+	<GlobalParameter Name="VMVMasterBack" Type="VMV" Index="105" MinValue="0.0" MaxValue="10.0"
+		 EvalBoundary="MinMax" Access="rwv" Value="1"/>
+	<!-- Zeit [s] fuer Interpolation vom Start der Momentenrampe bis Ende der Rampe beim Ziehen -->
+	<GlobalParameter Name="VMVMasterTrqPullTimeFactor" Type="VMV" Index="106" MinValue="0.0" MaxValue="0.0"
+		 EvalBoundary="Min" Access="rwv" Value="0.3"/>
+	<!-- Faktor fuer Gewichtung der Entwicklung vom mittleren Verfahrmoment zum Uebertrittsmoment -->
+   <GlobalParameter Name="VMVMasterTrqPullDeltaFactor" Type="VMV" Index="107" MinValue="-10.0" MaxValue="10.0"
+       EvalBoundary="MinMax" Access="rwv" Value="1.5"/>
+	<!-- Waehrend dieser Zeit [s] wird u.a. das Verfahrmoment ermittelt, es darf waehrend dieser Zeit keinen Bauteilkontakt geben. Nach dieser Zeit kann Ziehen und Druecken erst erkannt werden -->
+	<GlobalParameter Name="VMVMasterDetectStart" Type="VMV" Index="108" MinValue="0.0" MaxValue="10.0"
+		 EvalBoundary="MinMax" Access="rwv" Value="0.15"/>
+	<GlobalParameter Name="VMVMasterDeltaXBack" Type="VMV" Index="110" MinValue="0.0" MaxValue="1.0"
+		 EvalBoundary="MinMax" Access="rwv" Value="0"/>
+   <!-- Faktor fuer Position auf dem Vector ab welchem die Position eingefroren werden soll. 1.0 bedeutet 1.0 x Vektorlaenge. 0.0 bedeutet inaktiv -->
+   <GlobalParameter Name="VMVMasterFixPositionX" Type="VMV" Index="111" MinValue="0.0" MaxValue="10.0"
+       EvalBoundary="MinMax" Access="rwv" Value="1.0"/>
+   <!-- Maximal erlaubte Driftstrecke in negative Vektorrichtung waehrend das Moment fixiert ist. 1.0 bedeutet 1.0 x Vektorlaenge -->
+   <GlobalParameter Name="VMVMasterMaxNegativeDrift" Type="VMV" Index="112" MinValue="0.0" MaxValue="1.0"
+       EvalBoundary="MinMax" Access="rwv" Value="0.05"/>
+	<!-- Master-Kommando -->
+	<GlobalParameter Name="VMVMasterCmd" Type="VMV" Index="120" MinValue="0" MaxValue="10"
+		 EvalBoundary="MinMax" Access="rwv" Value="0"/>
+	<!-- Master-Rueckmeldungen -->
+	<GlobalParameter Name="VMVMasterState" Type="VMV" Index="150" MinValue="0" MaxValue="0"
+       EvalBoundary="Off" Access="cov" Value="0"/>
+	<GlobalParameter Name="VMVMasterFinishState" Type="VMV" Index="151" MinValue="0" MaxValue="0"
+       EvalBoundary="Off" Access="cov" Value="0"/>
+   <!-- Zustand beschreibt ob der Master gezogen wird bzw. wurde oder ob Ziehen wegen zu geringer Stabilitaet nicht erlaubt ist -->
+   <GlobalParameter Name="VMVMasterPullState" Type="VMV" Index="152" MinValue="0" MaxValue="0"
+       EvalBoundary="Off" Access="cov" Value="0"/>
+	<GlobalParameter Name="VMVMasterVersion" Type="VMV" Index="160" MinValue="0" MaxValue="0"
+       EvalBoundary="Off" Access="cov" Value="0.0"/>
+   <!-- Konfigurierbare Kraftschwelle am TCP ab welcher "Druecken" erkannt wird. 0.0 bedeutet keine "Druecken" Erkennung -->
+   <GlobalParameter Name="VMVMasterForceThresholdToDetectPush" Type="VMV" Index="180" MinValue="0.0" MaxValue="0"
+       EvalBoundary="Off" Access="rwv" Value="0.0"/>
+   <!-- Konfigurierbares Moment am Ende der Momentenrampe ab welcher "Druecken" detektiert wird. 0.0 ist ein gueltiger Wert -->
+   <GlobalParameter Name="VMVMasterForceThresholdRampEnd" Type="VMV" Index="186" MinValue="0.0" MaxValue="0"
+       EvalBoundary="Off" Access="rwv" Value="0.0"/>
+   <!-- Konfigurierbare Zeit der Momentenrampe ab welcher "Druecken" detektiert wird. 0.0 bedeutet es wird keine Rampe gefahren -->
+   <GlobalParameter Name="VMVMasterForceThresholdRampTime" Type="VMV" Index="187" MinValue="0.0" MaxValue="0"
+       EvalBoundary="Min" Access="rwv" Value="0.0"/>
+   <!-- Kraft Reduzierung falls "Druecken" detektiert wurde um etwas weniger Kraft auf das Bauteil auszuueben -->
+   <GlobalParameter Name="VMVMasterReduceForceAtPush" Type="VMV" Index="181" MinValue="0.0" MaxValue="0"
+       EvalBoundary="Min" Access="rwv" Value="0.0"/>
+   <!-- Ende der Rampe zur Kraftreduzierung beim "Druecken" -->
+   <GlobalParameter Name="VMVMasterReduceForceAtPushRampEnd" Type="VMV" Index="189" MinValue="0.0" MaxValue="0"
+       EvalBoundary="Off" Access="rwv" Value="0.0"/>
+   <!-- Konfigurierbare Zeit der Momentenrampe fuer die Kraftreduzierung nachdem "Druecken" detektiert wurde. 0.0 bedeutet es wird keine Rampe gefahren -->
+   <GlobalParameter Name="VMVMasterReduceForceAtPushRampTime" Type="VMV" Index="190" MinValue="0.0" MaxValue="0"
+       EvalBoundary="Min" Access="rwv" Value="0.0"/>
+   <!-- Kraft Erhoehung zu Beginn des "Ziehens" um den Roboter leichter und schneller "Ziehen" zu koennen -->
+   <GlobalParameter Name="VMVMasterRaiseForceAtStartPull" Type="VMV" Index="182" MinValue="0.0" MaxValue="0"
+       EvalBoundary="Min" Access="rwv" Value="0.0"/>
+   <!-- Umrechnungsfaktor inklusiv Vorzeichen wieviel Nm Motormoment entspricht der Kraft von 1000N am TCP -->
+   <GlobalParameter Name="VMVMasterMotorTrqAt1KN" Type="VMV" Index="183" MinValue="0" MaxValue="0"
+       EvalBoundary="Off" Access="rwv" Value="0.0"/>
+   <!-- Haftreibmoment des Motors -->
+   <GlobalParameter Name="VMVMasterStaticFrictionMotor" Type="VMV" Index="191" MinValue="0" MaxValue="0"
+       EvalBoundary="Off" Access="rwv" Value="0.0"/>
+   <!-- Vektor Laenge in Millimeter fuer Trace und Debug Ausgaben. Wert wird vom Grundsystem zum Regler gesendet -->
+   <GlobalParameter Name="VMVMasterVectorLengthInMillimeter" Type="VMV" Index="188" MinValue="0.0" MaxValue="0"
+       EvalBoundary="Min" Access="rwv" Value="0.0"/>
+   <!-- Abstand zum Bauteil, bis dahin kann Druecken erkannt werden. Danach wird die asymmetrische Zangendurchbiegung gefahren -->
+   <GlobalParameter Name="VMVMasterPartDistance" Type="VMV" Index="184" MinValue="0.0" MaxValue="0"
+       EvalBoundary="Min" Access="rwv" Value="0.0"/>
+   <!-- Reduzierung der berechneten Zielposition nachdem "Druecken" auf dem Weg zum Bauteil erkannt wurde. 0.1 bedeutet 0.1xVektorlaenge -->
+   <GlobalParameter Name="VMVMasterReduceTargetPosAtPush" Type="VMV" Index="185" MinValue="0.0" MaxValue="0"
+       EvalBoundary="Min" Access="rwv" Value="0.0"/>
+   <!-- Slave -->
+	<GlobalParameter Name="VMVSlaveX0" Type="VMV" Index="200" MinValue="0" MaxValue="0"
+		 EvalBoundary="Off" Access="rwv" Value="0"/>
+	<GlobalParameter Name="VMVSlaveX1" Type="VMV" Index="201" MinValue="0" MaxValue="0"
+		 EvalBoundary="Off" Access="rwv" Value="0"/>
+	<!-- Slave-Rueckmeldungen -->
+	<GlobalParameter Name="VMVSlaveVersion" Type="VMV" Index="260" MinValue="0" MaxValue="0"
+       EvalBoundary="Off" Access="cov" Value="0.0"/>
+	<!-- End VMV -->
+</CtrlParam>

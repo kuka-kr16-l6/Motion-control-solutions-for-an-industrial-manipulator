@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SysBusDriver xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="/Roboter/Config/System/Common/Schemes/SysBusDriver.xsd">
+  <Version Label="">
+    <Info Version="KUKA V8.5" />
+    <Schema Version="1" />
+  </Version>
+</SysBusDriver>

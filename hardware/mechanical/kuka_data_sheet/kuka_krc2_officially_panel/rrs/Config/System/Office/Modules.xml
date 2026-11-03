@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ModuleList xsi:noNamespaceSchemaLocation="/Roboter/Config/System/Common/Schemes/Modules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+   <Version Label="">
+      <Info Version="KUKA V8.3"/>
+      <Schema Version="1"/>
+   </Version>
+   <!--  NGSharedO.o must be the first module before all other NG modules. -->
+   <!--  Acts like an shared object for all NG modules. -->
+   <Module isActive="true" Name="NGSharedO.o" DisplayName="NGShared" Config="NGSharedO.xml" Prio="70" Affinity="1" Stacksize="65536"/>
+   <Module isActive="true" Name="EtherCATWrapperDummy.o" DisplayName="EtherCatWrapperDummy" Config="EcatWrapperDummy.xml" Prio="186" Affinity="1" Stacksize="65536"/>
+   <Module isActive="true" Name="CF.o" DisplayName="ControllerFramework" Config="CF.xml" Prio="70" Affinity="1" Stacksize="65536"/>
+   <Module isActive="true" Name="CFControllers.o" DisplayName="CFController" Config="CF.xml" Prio="70" Affinity="1" Stacksize="65536"/>
+   <Module isActive="true" Name="CFWaggonDrivers.o" DisplayName="CFWaggonDriver" Config="CF.xml" Prio="70" Affinity="1" Stacksize="65536"/>
+   <Module isActive="true" Name="CFFilters.o" DisplayName="CFFilters" Config="CF.xml" Prio="70" Affinity="1" Stacksize="65536"/>
+   <Module isActive="true" Name="NextGen.o" DisplayName="NextGen" Config="NextGen.xml" Prio="185" Affinity="0" Stacksize="65536"/>
+   <Module isActive="true" Name="MM.o" DisplayName="MotionManager" Config="MM.xml" Prio="185" Stacksize="65536" Affinity="0"/>
+   <Module isActive="true" Name="ECatIODriver.o" DisplayName="EcatIODriver" Config="" Prio="186" Affinity="0" Stacksize="65536"/>
+   <Module isActive="true" Name="VIODriver.o" DisplayName="VIODriver" Config="VIODriver.xml" Prio="186" Stacksize="65536" Affinity="0"/>
+   <Module isActive="true" Name="Trace.o" DisplayName="Trace" Config="Trace.xml" Prio="186" Stacksize="65536" Affinity="0"/>
+   <Module isActive="true" Name="Diagnose.o" DisplayName="Diagnose" Config="Diagnose.xml" Prio="186" Stacksize="131072" Affinity="0"/>
+   <Module isActive="true" Name="CEvent.o" DisplayName="CEvent" Config="CEvent.xml" Prio="190" Stacksize="65536" Affinity="0"/>
+   <Module isActive="true" Name="Histogram.o" DisplayName="Histogram" Config="Histogram.xml" Prio="192" Stacksize="65536" Affinity="0"/>
+   <Module isActive="true" Name="ApplGateAgent.o" DisplayName="ApplGateAgent" Config="ApplGateAgent.xml" Prio="186" Stacksize="65536" Affinity="0"/>
+   <Module isActive="true" Name="CommService.o" DisplayName="CommService" Config="CommService.xml" Prio="185" Affinity="0" Stacksize="65536"/>
+   <Module isActive="true" Name="MainBoardDrv.o" DisplayName="MainBoardDrv" Config="MainBoardDrv.xml" Prio="186" Stacksize="65536" Affinity="0"/>
+   <Module isActive="true" Name="OSBaseAgent.o" DisplayName="OSBaseAgent" Config="" Prio="186" Affinity="0" Stacksize="65536" runFaulty="true"/>
+   <Module isActive="true" Name="TransferAppIO.o" DisplayName="TransferAppIO" Config="TransferApp_IO.xml" Prio="186" Affinity="0" Stacksize="65536" runFaulty="true"/>
+</ModuleList>

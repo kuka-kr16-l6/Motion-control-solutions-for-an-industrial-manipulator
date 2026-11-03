@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Drive xsi:noNamespaceSchemaLocation="Schemes/NextGen.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+   <Version Label="">
+      <Info Version="KUKA V8.3"/>
+      <Schema Version="1"/>
+   </Version>
+   <Thread Priority="high" CycleTime="4000" DelayTime="0"/>
+   <SimpleAsyncThread Priority="215"/>
+   <DriveTech ConfigFile="Mada/NextGenDriveTech.xml"/>
+   <ControllerFramework ID="0"/>
+   <MasteringData>
+      <Mastering Type="EMD">
+         <RawData BufferSize="20000.0" SignalPropagationDelay="5.0" ConversionFactor="0.00008742" InContactThreshold="5000"/>
+         <Filter Order="4" Cut-Off-Frequency="40"/>
+         <RangeMonitoring MinRawValue="1" MaxRawValue="65536"/>
+         <RelChangeMonitoring MinRelChange="-5.0" MaxRelChange="10.0"/>
+         <NotchLengthMonitoring MaxLengthNotchGround="30.0"/>
+         <NotchDetection MinNotchDepth="0.3">
+            <Factor>0.1</Factor>
+            <Factor>0.5</Factor>
+         </NotchDetection>
+         <HotConnect>
+            <EMD ProductCode="50" VendorID="24776"/>
+         </HotConnect>
+      </Mastering>
+      <Mastering Type="MMD">
+         <RawData BufferSize="30000.0" SignalPropagationDelay="0.1" ConversionFactor="-0.0003" InContactThreshold="1500"/>
+         <Filter Order="4" Cut-Off-Frequency="500"/>
+         <RangeMonitoring MinRawValue="1" MaxRawValue="4095"/>
+         <RelChangeMonitoring MinRelChange="-5.0" MaxRelChange="10.0"/>
+         <NotchDetection MinNotchDepth="0.8">
+            <Factor>0.2</Factor>
+            <Factor>0.8</Factor>
+         </NotchDetection>
+      </Mastering>
+   </MasteringData>
+   <PositionRangeData>
+     <PositionRange Type="MMD">
+        <SensorData MinValue="0" MaxValue="4000" ZeroValue="2000" ZeroLimit="500"/>
+     </PositionRange>
+   </PositionRangeData>
+   <Extrapolation BusDelayFactor="2" DelayKSP="-0.076" DelayKSPsr="0.0" DelayRDC="0.044"/>
+   <Position TimeSlot="10000.0"/>
+   <TemperatureSensors>
+      <PTC Type="KTY84-130" R0="498.0" a="8.00984E-3" b="2.1285E-5" />
+      <PTC Type="PT1000" R0="1000.0" a="3.9083E-3" b="-5.775E-7" />
+      <PTC Type="PT100" R0="100.0" a="3.9083E-3" b="-5.775E-7" />
+      <Switch Type="StdThermoSwitch" Toff="150" />
+   </TemperatureSensors>
+</Drive>

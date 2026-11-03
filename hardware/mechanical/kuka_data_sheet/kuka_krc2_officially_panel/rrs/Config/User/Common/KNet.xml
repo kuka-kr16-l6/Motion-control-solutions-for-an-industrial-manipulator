@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<KNet xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="/Roboter/Config/System/Common/Schemes/KNet.xsd">
+  <Version Label="">
+    <Info Version="KRC V8.3" />
+    <Schema Version="200" />
+  </Version>
+  <RoboTeamVLAN isActive="false" />
+  <HostTable>
+    <Host Name="Steuerung 1" NonRealtimeIp="172.17.0.1" RealtimeIp="172.16.0.1" isLocalHost="true" />
+  </HostTable>
+</KNet>

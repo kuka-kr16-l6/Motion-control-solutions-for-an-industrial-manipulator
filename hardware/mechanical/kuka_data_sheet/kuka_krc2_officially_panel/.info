@@ -1,0 +1,39 @@
+*   Robot name      :   KUKA KR 16L6
+*   Article number  :	00 - 121 - 247
+*   Controller      :   KUKA KR C 2 
+*   Date            :   September 13th, 2004
+*   Company         :   KUKA Roboter GmbH 
+*   Department      :   KT-Simulation
+*   Creator	    :   Mr. Wolfgang Rostan
+*   Contact	    :   simulation@kuka-roboter.de
+*   Robcad version  :   6.0.3
+*   Model version   :   1 
+*
+*   important hint:
+*
+*   Cycle time estimations can only be obtained by the KR C RCS Module
+*   because the velocity profiles of the KR C controller can not be
+*   emulated by the Robcad motion planner. The KRC motion planner
+*   generates optimized velocity profiles depending on the robot position and
+*   the current load.
+*
+*   This .e file contains neither joint velocities and joint accelerations
+*   nor Cartesian velocities and Cartesian accelerations. We urgently recommend 
+*   to use the KRC RCS Module for cycle time analysis.
+*
+*
+*   A simulation is always based on assumptions with simplifications.
+*   The KUKA RCS-Modules supports some of the 3D-Simulation functionalities.
+*   A simulation with KUKA RCS Modules
+*
+*   - can not simulate the dynamic behaviours of a robot
+*	(e.g. oscillation and vibrations)
+*
+*   - can not support the I/O functions of the robot. (restriction in RRS1)
+*
+*   - can not support external friction and inertia.
+*	(e.g. gripper holding force, spot welding rebound etc.)
+*
+*   - can not simulate a flexible connection (eg.: cable package),
+*     Some CAR-Tool supplied have tool for this functions.
+

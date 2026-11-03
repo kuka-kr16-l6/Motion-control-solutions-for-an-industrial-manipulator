@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ConnectionChain xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="/ROBOTER/Config/System/Common/Schemes/connectionchain.xsd">
+  <Version Label="">
+    <Info Version="KUKA V8.5" />
+    <Schema Version="1" />
+  </Version>
+</ConnectionChain>

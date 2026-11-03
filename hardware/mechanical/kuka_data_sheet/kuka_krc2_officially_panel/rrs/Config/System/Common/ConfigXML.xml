@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ConfigList xsi:noNamespaceSchemaLocation="Schemes/ConfigXML.xsd"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+   <Version Label="">
+      <Info Version="KUKA V8.3"/>
+      <Schema Version="1"/>
+   </Version>
+   <CustomerVariant
+      VarName="VW"/>
+   <Environment
+      EnvPath="Cabinet/"/>
+   <ConfigPath
+      System="Config/System/"
+      User="Config/User/"
+      SysCommon="Config/System/Common/"
+      UserCommon="Config/User/Common/" />
+</ConfigList>
