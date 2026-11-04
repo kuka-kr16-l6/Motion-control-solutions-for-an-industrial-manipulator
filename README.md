@@ -919,7 +919,7 @@ We are a team of **Mechatronics and Robotics Engineering students** working on t
 ### 🧑‍🏫 Supervisors
 
 We are grateful for the support and mentorship of our supervisors:
-- Dr. Ahmed Saad
+- Prof. Ahmed Saad
 - Dr. Gamal Abd Elnaser
 
 - 🔧 **Focus**: Low-level motor and sensor interfacing, real-time control, and high-level task planning  
